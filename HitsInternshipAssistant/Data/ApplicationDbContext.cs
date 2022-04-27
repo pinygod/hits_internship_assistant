@@ -12,5 +12,6 @@ namespace HitsInternshipAssistant.Data
         }
 
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
     }
 }
