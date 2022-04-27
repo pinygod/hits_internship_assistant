@@ -63,8 +63,7 @@ namespace HitsInternshipAssistant.Controllers
                 {
                     Name = model.Name,
                     Description = model.Description,
-                    Color = model.Color,
-                    HRId = isCurrentUserHR ? Guid.Parse(user.Id) : Guid.Empty
+                    Color = model.Color
                 };
 
                 if (isCurrentUserHR)

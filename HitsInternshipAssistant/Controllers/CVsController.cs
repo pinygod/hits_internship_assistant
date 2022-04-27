@@ -34,14 +34,14 @@ namespace HitsInternshipAssistant.Controllers
         [Authorize]
         public async Task<IActionResult> Details(Guid? id)
         {
-            CV cv = await _context.CVs.FirstOrDefaultAsync(x => x.Id == id);
+            CV cv = await _context.CVs.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (cv == default)
             {
                 return NotFound();
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != cv.UserId.ToString() &&
+            if (user.Id != cv.User.Id &&
                 !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University) &&
                 !User.IsInRole(Roles.HR))
@@ -80,6 +80,8 @@ namespace HitsInternshipAssistant.Controllers
                     cv.WorkDirections.Add(direction);
                 }
 
+                user.CVId = cv.Id;
+
                 _context.Add(cv);
                 await _context.SaveChangesAsync();
 
@@ -92,14 +94,14 @@ namespace HitsInternshipAssistant.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
-            CV cv = await _context.CVs.FirstOrDefaultAsync(x => x.Id == id);
+            CV cv = await _context.CVs.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (cv == default)
             {
                 return NotFound();
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != cv.UserId.ToString() && !User.IsInRole(Roles.Admin))
+            if (user.Id != cv.User.Id && !User.IsInRole(Roles.Admin))
             {
                 return Forbid();
             }
@@ -121,14 +123,14 @@ namespace HitsInternshipAssistant.Controllers
         {
             if (ModelState.IsValid)
             {
-                CV cv = await _context.CVs.FirstOrDefaultAsync(x => x.Id == id);
+                CV cv = await _context.CVs.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
                 if (cv == default)
                 {
                     return NotFound();
                 }
 
                 ApplicationUser user = await _userManager.GetUserAsync(User);
-                if (user.Id != cv.UserId.ToString() && !User.IsInRole(Roles.Admin))
+                if (user.Id != cv.User.Id && !User.IsInRole(Roles.Admin))
                 {
                     return Forbid();
                 }
@@ -159,14 +161,14 @@ namespace HitsInternshipAssistant.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
         {
-            CV cv = await _context.CVs.FirstOrDefaultAsync(x => x.Id == id);
+            CV cv = await _context.CVs.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (cv == default)
             {
                 return NotFound();
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != cv.UserId.ToString() && !User.IsInRole(Roles.Admin))
+            if (user.Id != cv.User.Id && !User.IsInRole(Roles.Admin))
             {
                 return Forbid();
             }
@@ -179,14 +181,14 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            CV cv = await _context.CVs.FirstOrDefaultAsync(x => x.Id == id);
+            CV cv = await _context.CVs.Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
             if (cv == default)
             {
                 return NotFound();
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != cv.UserId.ToString() && !User.IsInRole(Roles.Admin))
+            if (user.Id != cv.User.Id && !User.IsInRole(Roles.Admin))
             {
                 return Forbid();
             }
