@@ -5,16 +5,19 @@ using HitsInternshipAssistant.Data;
 using HitsInternshipAssistant.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using HitsInternshipAssistant.Data.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HitsInternshipAssistant.Controllers
 {
     public class CompaniesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CompaniesController(ApplicationDbContext context)
+        public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -40,34 +43,44 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCompanyViewModel model)
         {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            bool isCurrentUserHR = User.IsInRole(Roles.HR);
+
             if (ModelState.IsValid)
             {
                 Company company = new()
                 {
                     Name = model.Name,
                     Description = model.Description,
-                    Color = model.Color
+                    Color = model.Color,
+                    HRId = isCurrentUserHR ? Guid.Parse(user.Id) : Guid.Empty
                 };
+
+                if (isCurrentUserHR)
+                {
+                    user.CompanyId = company.Id;
+                }
 
                 _context.Add(company);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -83,7 +96,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditCompanyViewModel model)
@@ -107,7 +120,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -125,7 +138,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -136,7 +149,7 @@ namespace HitsInternshipAssistant.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public async Task<IActionResult> CreateVacancy(Guid? companyId)
         {
             Company company = await GetCompanyAsync(companyId);
@@ -148,7 +161,7 @@ namespace HitsInternshipAssistant.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVacancy(Guid companyId, CreateVacancyViewModel model)
