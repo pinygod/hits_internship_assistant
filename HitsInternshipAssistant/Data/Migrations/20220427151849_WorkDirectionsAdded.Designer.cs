@@ -4,6 +4,7 @@ using HitsInternshipAssistant.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HitsInternshipAssistant.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220427151849_WorkDirectionsAdded")]
+    partial class WorkDirectionsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace HitsInternshipAssistant.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("CVId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("CompanyId")
                         .HasColumnType("uniqueidentifier");
@@ -105,10 +104,6 @@ namespace HitsInternshipAssistant.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CVId")
-                        .IsUnique()
-                        .HasFilter("[CVId] IS NOT NULL");
-
                     b.HasIndex("CompanyId")
                         .IsUnique()
                         .HasFilter("[CompanyId] IS NOT NULL");
@@ -150,35 +145,10 @@ namespace HitsInternshipAssistant.Data.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("HitsInternshipAssistant.Data.Models.CV", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AdditionalInfo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Contacts")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CVs");
-                });
-
             modelBuilder.Entity("HitsInternshipAssistant.Data.Models.StudentWorkDirection", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CVId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Experience")
@@ -193,8 +163,6 @@ namespace HitsInternshipAssistant.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CVId");
 
                     b.HasIndex("ParentDirectionId");
 
@@ -398,34 +366,20 @@ namespace HitsInternshipAssistant.Data.Migrations
 
             modelBuilder.Entity("HitsInternshipAssistant.Data.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("HitsInternshipAssistant.Data.Models.CV", "CV")
-                        .WithOne("User")
-                        .HasForeignKey("HitsInternshipAssistant.Data.Models.ApplicationUser", "CVId");
-
                     b.HasOne("HitsInternshipAssistant.Data.Models.Company", "Company")
                         .WithOne("HR")
                         .HasForeignKey("HitsInternshipAssistant.Data.Models.ApplicationUser", "CompanyId");
-
-                    b.Navigation("CV");
 
                     b.Navigation("Company");
                 });
 
             modelBuilder.Entity("HitsInternshipAssistant.Data.Models.StudentWorkDirection", b =>
                 {
-                    b.HasOne("HitsInternshipAssistant.Data.Models.CV", "CV")
-                        .WithMany("WorkDirections")
-                        .HasForeignKey("CVId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("HitsInternshipAssistant.Data.Models.WorkDirection", "ParentDirection")
                         .WithMany("StudentWorkDirections")
                         .HasForeignKey("ParentDirectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CV");
 
                     b.Navigation("ParentDirection");
                 });
@@ -498,14 +452,6 @@ namespace HitsInternshipAssistant.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Vacancies");
-                });
-
-            modelBuilder.Entity("HitsInternshipAssistant.Data.Models.CV", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
-
-                    b.Navigation("WorkDirections");
                 });
 
             modelBuilder.Entity("HitsInternshipAssistant.Data.Models.WorkDirection", b =>
