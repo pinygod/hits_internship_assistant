@@ -10,5 +10,7 @@ namespace HitsInternshipAssistant.Data
             : base(options)
         {
         }
+
+        public DbSet<Company> Companies { get; set; }
     }
 }
