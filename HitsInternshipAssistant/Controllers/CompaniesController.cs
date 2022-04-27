@@ -54,11 +54,11 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCompanyViewModel model)
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            bool isCurrentUserHR = User.IsInRole(Roles.HR);
-
             if (ModelState.IsValid)
             {
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                bool isCurrentUserHR = User.IsInRole(Roles.HR);
+
                 Company company = new()
                 {
                     Name = model.Name,
@@ -101,14 +101,14 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditCompanyViewModel model)
         {
-            var company = await GetCompanyAsync(id);
-            if (company == default)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
+                var company = await GetCompanyAsync(id);
+                if (company == default)
+                {
+                    return NotFound();
+                }
+
                 company.Name = model.Name;
                 company.Description = model.Description;
                 company.Color = model.Color;
@@ -117,7 +117,7 @@ namespace HitsInternshipAssistant.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(company);
+            return View(model);
         }
 
         [Authorize(Roles = "Admin, University, HR")]
@@ -158,7 +158,7 @@ namespace HitsInternshipAssistant.Controllers
                 return NotFound();
             }
 
-            return View();
+            return View(new CreateVacancyViewModel());
         }
 
         [Authorize(Roles = "Admin, University, HR")]
@@ -166,14 +166,14 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVacancy(Guid companyId, CreateVacancyViewModel model)
         {
-            Company company = await GetCompanyAsync(companyId);
-            if (company == default)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
+                Company company = await GetCompanyAsync(companyId);
+                if (company == default)
+                {
+                    return NotFound();
+                }
+
                 Vacancy vacancy = new()
                 {
                     Name = model.Name,
