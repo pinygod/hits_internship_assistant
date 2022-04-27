@@ -38,7 +38,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancy);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -61,7 +61,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancyViewModel);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditVacancyViewModel model)
@@ -85,7 +85,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -102,7 +102,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancy);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)

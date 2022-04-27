@@ -43,13 +43,13 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCompanyViewModel model)
@@ -80,7 +80,7 @@ namespace HitsInternshipAssistant.Controllers
             return View();
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -96,7 +96,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditCompanyViewModel model)
@@ -120,7 +120,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -138,7 +138,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(company);
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -149,7 +149,7 @@ namespace HitsInternshipAssistant.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         public async Task<IActionResult> CreateVacancy(Guid? companyId)
         {
             Company company = await GetCompanyAsync(companyId);
@@ -161,7 +161,7 @@ namespace HitsInternshipAssistant.Controllers
             return View();
         }
 
-        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
+        [Authorize(Roles = "Admin, University, HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVacancy(Guid companyId, CreateVacancyViewModel model)
