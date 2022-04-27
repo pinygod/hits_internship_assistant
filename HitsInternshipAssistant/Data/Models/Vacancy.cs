@@ -7,6 +7,6 @@
         public string Description { get; set; }
         public Guid CompanyId { get; set; }
         public Company Company { get; set; }
-        public virtual ICollection<ApplicationUser> Applicants { get; set; }
+        public virtual ICollection<VacancyApply> Applicants { get; set; }
     }
 }
