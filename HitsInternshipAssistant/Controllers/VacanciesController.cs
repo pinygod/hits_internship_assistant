@@ -5,16 +5,19 @@ using HitsInternshipAssistant.Data;
 using HitsInternshipAssistant.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using HitsInternshipAssistant.Data.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace HitsInternshipAssistant.Controllers
 {
     public class VacanciesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public VacanciesController(ApplicationDbContext context)
+        public VacanciesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -111,6 +114,22 @@ namespace HitsInternshipAssistant.Controllers
             _context.Vacancies.Remove(vacancy);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<bool> Apply(Guid vacancyId)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            Vacancy vacancy = await _context.Vacancies.FindAsync(vacancyId);
+
+            vacancy.Applicants.Add(user);
+            user.VacanciesApplied.Add(vacancy);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
         private bool VacancyExists(Guid id)
