@@ -1,10 +1,5 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HitsInternshipAssistant.Data;
 using HitsInternshipAssistant.Data.Models;
@@ -35,6 +30,7 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             var company = await _context.Companies
+                .Include(x => x.Vacancies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
@@ -90,9 +86,9 @@ namespace HitsInternshipAssistant.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditCompanyViewModel model)
+        public async Task<IActionResult> Edit(Guid id, EditCompanyViewModel model)
         {
-            var company = await GetCompanyAsync(model.Id);
+            var company = await GetCompanyAsync(id);
             if (company == default)
             {
                 return NotFound();
@@ -140,12 +136,52 @@ namespace HitsInternshipAssistant.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
+        public async Task<IActionResult> CreateVacancy(Guid? companyId)
+        {
+            Company company = await GetCompanyAsync(companyId);
+            if (company == default)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateVacancy(Guid companyId, CreateVacancyViewModel model)
+        {
+            Company company = await GetCompanyAsync(companyId);
+            if (company == default)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                Vacancy vacancy = new()
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    CompanyId = company.Id
+                };
+
+                _context.Add(vacancy);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
         private bool CompanyExists(Guid id)
         {
             return _context.Companies.Any(e => e.Id == id);
         }
 
-        private async Task<Company> GetCompanyAsync(Guid id)
+        private async Task<Company> GetCompanyAsync(Guid? id)
         {
             return await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
         }
