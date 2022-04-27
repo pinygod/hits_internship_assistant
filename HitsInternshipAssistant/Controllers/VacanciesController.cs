@@ -121,11 +121,16 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<bool> Apply(Guid vacancyId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-
             Vacancy vacancy = await _context.Vacancies.FindAsync(vacancyId);
 
-            vacancy.Applicants.Add(user);
-            user.VacanciesApplied.Add(vacancy);
+            VacancyApply vacancyApply = new()
+            {
+                User = user,
+                VacancyId = vacancy.Id,
+                Status = VacancyApplyStatus.Pending
+            };
+
+            _context.VacancyApplies.Add(vacancyApply);
 
             await _context.SaveChangesAsync();
 

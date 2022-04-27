@@ -10,6 +10,6 @@
         public Company? Company { get; set; }
         public Guid? CVId { get; set; }
         public CV CV { get; set; }
-        public virtual ICollection<Vacancy> VacanciesApplied { get; set; }
+        public virtual ICollection<VacancyApply> AppliedVacancies { get; set; }
     }
 }
