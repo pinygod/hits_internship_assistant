@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 
@@ -40,4 +41,4 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.UseMvcWithDefaultRoute();
 
-app.Run();
+app.MigrateDbContext<ApplicationDbContext>().Run();

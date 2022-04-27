@@ -1,6 +1,5 @@
 ﻿#nullable disable
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HitsInternshipAssistant.Data;
 using HitsInternshipAssistant.Data.Models;
@@ -39,7 +38,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancy);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -62,7 +61,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancyViewModel);
         }
 
-        [Authorize]
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditVacancyViewModel model)
@@ -86,6 +85,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -102,6 +102,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(vacancy);
         }
 
+        [Authorize(Roles = Roles.Admin + Roles.University + Roles.HR)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
