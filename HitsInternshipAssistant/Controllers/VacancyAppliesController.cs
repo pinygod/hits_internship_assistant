@@ -20,6 +20,61 @@ namespace HitsInternshipAssistant.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+
+            if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
+            {
+                return View(await _context.VacancyApplies
+                    .Include(x => x.Vacancy)
+                    .Include(x => x.User)
+                    .ToListAsync());
+            }
+            else if (User.IsInRole(Roles.HR))
+            {
+                return View(await _context.VacancyApplies
+                    .Include(x => x.Vacancy)
+                    .Include(x => x.User)
+                    .Where(x => x.Vacancy.CompanyId == user.CompanyId)
+                    .ToListAsync());
+            }
+            else
+            {
+                return View(await _context.VacancyApplies
+                    .Include(x => x.Vacancy)
+                    .Include(x => x.User)
+                    .Where(x => x.User.Id == user.Id)
+                    .ToListAsync());
+            }
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            VacancyApply vacancyApply = await _context.VacancyApplies
+                .Include(x => x.Vacancy)
+                .Include(x => x.User)
+                .ThenInclude(x => x.CV)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (vacancyApply == default)
+            {
+                return NotFound();
+            }
+
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user.Id != vacancyApply.User.Id &&
+                !User.IsInRole(Roles.Admin) &&
+                !User.IsInRole(Roles.University) &&
+                !User.IsInRole(Roles.HR))
+            {
+                return Forbid();
+            }
+
+            return View(vacancyApply);
+        }
+
         [Authorize(Roles = "Admin, Unversity, HR")]
         public async Task<IActionResult> Edit(Guid? id)
         {
