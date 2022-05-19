@@ -6,6 +6,10 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Patronymic { get; set; }
+        public string Contacts { get; set; }
+        public bool ShowInApplicantsList { get; set; }
+        public bool ShowInInternsList { get; set; }
         public Guid? CompanyId { get; set; }
         public virtual Company? Company { get; set; }
         public Guid? CVId { get; set; }
