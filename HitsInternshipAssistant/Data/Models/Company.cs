@@ -8,5 +8,6 @@
         public string Color { get; set; }
         public virtual ApplicationUser HR { get; set; }
         public virtual ICollection<Vacancy> Vacancies { get; set; }
+        public virtual ICollection<CompanySpeech> Speeches { get; set; }
     }
 }
