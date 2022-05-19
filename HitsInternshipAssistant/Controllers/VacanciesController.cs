@@ -38,7 +38,20 @@ namespace HitsInternshipAssistant.Controllers
                 return NotFound();
             }
 
-            return View(vacancy);
+            VacancyApply vacancyApply = null;
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user != default)
+            {
+                vacancyApply = await _context.VacancyApplies.Include(x => x.User).FirstOrDefaultAsync(x => x.User.Id == user.Id);
+            }
+
+            var model = new VacancyDetailsViewModel
+            {
+                Vacancy = vacancy,
+                VacancyApply = vacancyApply
+            };
+
+            return View(model);
         }
 
         [Authorize(Roles = "Admin, University, HR")]
