@@ -146,7 +146,7 @@ namespace HitsInternshipAssistant.Controllers
         {
             return await _context.Vacancies
                 .Include(v => v.Company)
-                .Include(v => v.Applicants)
+                .Include(v => v.Applicants.Where(x => x.User.ShowInApplicantsList))
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
