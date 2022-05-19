@@ -40,7 +40,18 @@ namespace HitsInternshipAssistant.Controllers
                 return NotFound();
             }
 
-            return View(company);
+            var interns = await _context.Users
+                .Where(x => x.CompanyId == company.Id &&
+                            !Task.Run(() => _userManager.IsInRoleAsync(x, Roles.HR)).Result)
+                .ToListAsync();
+
+            var model = new CompanyDetailsViewModel
+            {
+                Company = company,
+                Interns = interns
+            };
+
+            return View(model);
         }
 
         [Authorize(Roles = "Admin, University, HR")]
