@@ -19,5 +19,6 @@ namespace HitsInternshipAssistant.Data
         public DbSet<VacancyApply> VacancyApplies { get; set; }
         public DbSet<CompanySpeech> companySpeeches { get; set; }
         public DbSet<StudentReview> StudentReviews { get; set; }
+        public DbSet<PracticeJournal> PracticeJournal { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace HitsInternshipAssistant.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ImageUploadService _imageUploadService;
+        private readonly FileUploadsService _fileUploadsService;
 
-        public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ImageUploadService imageUploadService)
+        public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, FileUploadsService imageUploadService)
         {
             _context = context;
             _userManager = userManager;
-            _imageUploadService = imageUploadService;
+            _fileUploadsService = imageUploadService;
         }
 
         public async Task<IActionResult> Index()
@@ -85,7 +85,7 @@ namespace HitsInternshipAssistant.Controllers
             string logoPath = "", backgroundImagePath = "";
             try
             {
-                logoPath = await _imageUploadService.UploadAsync(model.Logo);
+                logoPath = await _fileUploadsService.UploadImageAsync(model.Logo);
             }
             catch (Exception ex)
             {
@@ -93,7 +93,7 @@ namespace HitsInternshipAssistant.Controllers
             }
             try
             {
-                backgroundImagePath = await _imageUploadService.UploadAsync(model.BackgroundLogo);
+                backgroundImagePath = await _fileUploadsService.UploadImageAsync(model.BackgroundLogo);
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace HitsInternshipAssistant.Controllers
             {
                 try
                 {
-                    logoPath = await _imageUploadService.UploadAsync(model.Logo);
+                    logoPath = await _fileUploadsService.UploadImageAsync(model.Logo);
                 }
                 catch (Exception ex)
                 {
@@ -168,7 +168,7 @@ namespace HitsInternshipAssistant.Controllers
             {
                 try
                 {
-                    backgroundImagePath = await _imageUploadService.UploadAsync(model.BackgroundLogo);
+                    backgroundImagePath = await _fileUploadsService.UploadImageAsync(model.BackgroundLogo);
                 }
                 catch (Exception ex)
                 {
