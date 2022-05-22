@@ -16,10 +16,11 @@ namespace HitsInternshipAssistant.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ImageUploadService _imageUploadService;
 
-        public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ImageUploadService imageUploadService)
         {
             _context = context;
             _userManager = userManager;
+            _imageUploadService = imageUploadService;
         }
 
         public async Task<IActionResult> Index()
@@ -262,7 +263,9 @@ namespace HitsInternshipAssistant.Controllers
                 Vacancy vacancy = new()
                 {
                     Name = model.Name,
-                    Description = model.Description,
+                    RequiredSkills = model.RequiredSkills,
+                    TechStack = model.TechStack,
+                    AdditionalInfo = model.AdditionalInfo,
                     CompanyId = company.Id
                 };
 

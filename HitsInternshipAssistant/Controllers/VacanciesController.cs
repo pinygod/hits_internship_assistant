@@ -79,7 +79,9 @@ namespace HitsInternshipAssistant.Controllers
             EditVacancyViewModel vacancyViewModel = new()
             {
                 Name = vacancy.Name,
-                Description = vacancy.Description
+                RequiredSkills = vacancy.RequiredSkills,
+                TechStack = vacancy.TechStack,
+                AdditionalInfo = vacancy.AdditionalInfo,
             };
 
             return View(vacancyViewModel);
@@ -99,7 +101,9 @@ namespace HitsInternshipAssistant.Controllers
             if (ModelState.IsValid)
             {
                 vacancy.Name = model.Name;
-                vacancy.Description = model.Description;
+                vacancy.RequiredSkills = model.RequiredSkills;
+                vacancy.TechStack = model.TechStack;
+                vacancy.AdditionalInfo = model.AdditionalInfo;
 
                 await _context.SaveChangesAsync();
 
