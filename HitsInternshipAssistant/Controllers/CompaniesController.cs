@@ -6,6 +6,7 @@ using HitsInternshipAssistant.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using HitsInternshipAssistant.Data.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using HitsInternshipAssistant.Services;
 
 namespace HitsInternshipAssistant.Controllers
 {
@@ -13,6 +14,7 @@ namespace HitsInternshipAssistant.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ImageUploadService _imageUploadService;
 
         public CompaniesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -25,6 +27,18 @@ namespace HitsInternshipAssistant.Controllers
             return View(await _context.Companies.ToListAsync());
         }
 
+        [Authorize(Roles = "Admin, University, HR")]
+        public async Task<List<ApplicationUser>> GetInterns(Guid? companyId)
+        {
+            if (companyId == null)
+            {
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                companyId = user.CompanyId;
+            }
+
+            return await _context.Users.Where(x => x.CompanyId == companyId && !Task.Run(() => _userManager.IsInRoleAsync(x, "HR")).Result).ToListAsync();
+        }
+
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -33,6 +47,7 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             var company = await _context.Companies
+                .Include(x=> x.Employees)
                 .Include(x => x.Vacancies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
@@ -42,6 +57,7 @@ namespace HitsInternshipAssistant.Controllers
 
             var interns = await _context.Users
                 .Where(x => x.CompanyId == company.Id &&
+                            x.ShowInInternsList &&
                             !Task.Run(() => _userManager.IsInRoleAsync(x, Roles.HR)).Result)
                 .ToListAsync();
 
@@ -65,6 +81,24 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCompanyViewModel model)
         {
+            string logoPath = "", backgroundImagePath = "";
+            try
+            {
+                logoPath = await _imageUploadService.UploadAsync(model.Logo);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(nameof(model.Logo), ex.Message);
+            }
+            try
+            {
+                backgroundImagePath = await _imageUploadService.UploadAsync(model.BackgroundLogo);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(nameof(model.BackgroundLogo), ex.Message);
+            }
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -73,8 +107,13 @@ namespace HitsInternshipAssistant.Controllers
                 Company company = new()
                 {
                     Name = model.Name,
+                    ShortName = model.ShortName,
+                    Tagline = model.Tagline,
                     Description = model.Description,
-                    Color = model.Color
+                    Contacts = model.Contacts,
+                    PartnershipStartYear = model.PartnershipStartYear,
+                    LogoLink = logoPath,
+                    BackgroundLogoLink = backgroundImagePath,
                 };
 
                 if (isCurrentUserHR)
@@ -111,6 +150,31 @@ namespace HitsInternshipAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, EditCompanyViewModel model)
         {
+            string logoPath = null, backgroundImagePath = null;
+            if (model.Logo != null)
+            {
+                try
+                {
+                    logoPath = await _imageUploadService.UploadAsync(model.Logo);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(nameof(model.Logo), ex.Message);
+                }
+            }
+
+            if (model.BackgroundLogo != null)
+            {
+                try
+                {
+                    backgroundImagePath = await _imageUploadService.UploadAsync(model.BackgroundLogo);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(nameof(model.BackgroundLogo), ex.Message);
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 var company = await GetCompanyAsync(id);
@@ -120,8 +184,19 @@ namespace HitsInternshipAssistant.Controllers
                 }
 
                 company.Name = model.Name;
+                company.ShortName = model.ShortName;
+                company.Tagline = model.Tagline;
                 company.Description = model.Description;
-                company.Color = model.Color;
+                company.Contacts = model.Contacts;
+                company.PartnershipStartYear = model.PartnershipStartYear;
+                if (logoPath != null)
+                {
+                    company.LogoLink = logoPath;
+                }
+                if (backgroundImagePath != null)
+                {
+                    company.BackgroundLogoLink = backgroundImagePath;
+                }
 
                 await _context.SaveChangesAsync();
 

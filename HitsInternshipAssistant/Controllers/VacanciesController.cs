@@ -22,6 +22,14 @@ namespace HitsInternshipAssistant.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (user != default)
+            {
+                if (await _userManager.IsInRoleAsync(user, "HR") && user.CompanyId != null)
+                {
+                    return View(await _context.Vacancies.Where(x => x.CompanyId == user.CompanyId).ToListAsync());
+                }
+            }
             return View(await _context.Vacancies.Include(v => v.Company).ToListAsync());
         }
 
@@ -42,7 +50,7 @@ namespace HitsInternshipAssistant.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             if (user != default)
             {
-                vacancyApply = await _context.VacancyApplies.Include(x => x.User).FirstOrDefaultAsync(x => x.User.Id == user.Id);
+                vacancyApply = await _context.VacancyApplies.Include(x => x.User).FirstOrDefaultAsync(x => x.VacancyId == vacancy.Id && x.User.Id == user.Id);
             }
 
             var model = new VacancyDetailsViewModel
