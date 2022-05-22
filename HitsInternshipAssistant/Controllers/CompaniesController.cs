@@ -277,6 +277,41 @@ namespace HitsInternshipAssistant.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin, University")]
+        public async Task<IActionResult> AddEmployee(Guid companyId)
+        {
+            var company = await _context.Companies.FindAsync(companyId);
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag["Users"] = await _context.Users.ToListAsync();
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, University")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmployee(Guid companyId, Guid userId)
+        {
+            var company = await _context.Companies.FindAsync(companyId);
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            ApplicationUser user = await _userManager.FindByIdAsync(userId.ToString());
+
+            user.CompanyId = companyId;
+            company.Employees.Add(user);
+
+            await _context.SaveChangesAsync();
+
+            return View();
+        }
+
         private bool CompanyExists(Guid id)
         {
             return _context.Companies.Any(e => e.Id == id);
