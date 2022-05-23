@@ -2,6 +2,7 @@ using HitsInternshipAssistant.Data;
 using HitsInternshipAssistant.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using HitsInternshipAssistant.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+
+builder.Services.AddSingleton<FileUploadsService>();
 
 var app = builder.Build();
 
