@@ -6,8 +6,8 @@
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Patronymic { get; set; }
-        public string Contacts { get; set; }
+        public string Patronymic { get; set; } = "";
+        public string Contacts { get; set; } = "";
         public bool ShowInApplicantsList { get; set; }
         public bool ShowInInternsList { get; set; }
         public int? Course { get; set; } = null;

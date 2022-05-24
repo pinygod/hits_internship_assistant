@@ -41,7 +41,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
-app.UseMvcWithDefaultRoute();
+app.UseMvc(routes =>
+{
+    routes.MapRoute(
+        name: "default",
+        template: "{controller=Companies}/{action=Index}/{id?}");
+});
 
 app.MigrateDbContext<ApplicationDbContext>().Run();
