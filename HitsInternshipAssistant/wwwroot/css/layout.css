@@ -4,7 +4,6 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 21px;
-
     color: #1794AC;
 }
 
@@ -95,4 +94,69 @@ a {
     outline: none !important;
     color: black !important;
     text-decoration: none !important;
+}
+/*HEADER start */
+.app-header{
+    position:fixed;
+    top:0;
+    right:0;
+    left:0;
+    height:5rem;
+    align-items:center;
+}
+.header-bar{
+    display:flex;
+    width:100%;
+    height:5rem;
+    align-items:stretch;
+}
+.header-bar-left {
+    align-items: center;
+    max-width: 20rem;
+    min-width: 20rem;
+}
+.header-bar-center {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding:0 1rem 0 1rem;
+}
+.header-bar-search{
+    width:100%;
+}
+.header-bar-right {
+    align-items: center;
+    max-width: 20rem;
+    min-width: 20rem;
+    width:100%;
+}
+/*HEADER end */
+.app {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+.app .aside-menu {
+    top: 5rem;
+    max-width: 20rem;
+    min-width: 20rem;
+    position: fixed;
+    bottom: 0;
+}
+.stacked-menu{
+    padding-top:1rem;
+}
+/*MAIN start*/
+.app-main {
+    position: relative;
+    padding-top: 5rem;
+    padding-left: 20rem;
+    padding-right: 20rem;
+    overflow: hidden;
+    display: block;
+    z-index:-999;
+}
+/*Main end*/
+.wrapper{
+    padding:1rem;
 }
