@@ -20,33 +20,31 @@
 <body>
     <div class="app">
         <header class="app-header">
-                <div class="header-bar">
-                    <div class="header-bar-left">
-                        <a asp-area="" asp-page="/Index"><img src="img/logo.png" /></a>
-                        <a id="serviceName" class="navbar-brand" asp-area="" asp-page="/Index">HitsIntership</a>
-                    </div>
-                    <div class="header-bar-center">
-                        @if (true)
-                        {
-                            <div class="header-bar-search">
-                                <div id="formContainer" class="">
-                                    <input type="text" id="searchForm" class="form-control" placeholder="Поиск..." aria-label="Search" />
-                                    <i class="fa-solid fa-magnifying-glass d-flex align-self-center "></i>
-                                </div>
-                            </div>
-                        }
-
-                        
-                    </div>
-                    <div class="header-bar-right">
-                            <partial name="_LoginPartial" />
-                    </div>
+            <div class="header-bar">
+                <div class="header-bar-left p-3">
+                    <a asp-area="" asp-page="/Index"><img src="img/logo.png" /></a>
+                    <a id="serviceName" class="navbar-brand text-header-title" asp-area="" asp-page="/Index">HitsIntership</a>
                 </div>
+                <div class="header-bar-center">
+                    @if (true)
+                    {
+                        <div class="header-bar-search">
+                            <div id="formContainer" class="pt-1">
+                                <input type="text" id="searchForm" class="form-control" placeholder="Поиск..." aria-label="Search" />
+                                <i class="fa-solid fa-magnifying-glass d-flex align-self-center "></i>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="header-bar-right">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
         </header>
         <aside class="app aside-menu">
             <nav class="stacked-menu">
                 <ul class="listItemsSidePanel list-group">
-                    @if (true)
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
                             <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="VacancyApplies">
@@ -131,12 +129,17 @@
                 </ul>
             </nav>
         </aside>
-
         <div class="app-main">
             <div class="wrapper">
                 @RenderBody()
             </div>
         </div>
+        <div class="aside-menu aside-menu-right">
+            @*Сюда пихать правое боковое меню 
+                мб надо будет overflow:hidden  сюда докинуть я хз
+            *@
+        </div>
+
     </div>
     <footer class="footer text-muted pe-5 ">
         <div class="container d-flex  justify-content-between">
