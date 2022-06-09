@@ -37,7 +37,14 @@
                     }
                 </div>
                 <div class="header-bar-right">
-                    <partial name="_LoginPartial" />
+                    <div class="dropdown">
+                        <button onclick="OpenDropdown()" class="dropbtn">Иван Иванов</button>
+                        <div id="LoginDropdown" class="dropdown-content">
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
@@ -135,7 +142,7 @@
             </div>
         </div>
         <div class="aside-menu aside-menu-right">
-            @*Сюда пихать правое боковое меню 
+            @*Сюда пихать правое боковое меню
                 мб надо будет overflow:hidden  сюда докинуть я хз
             *@
         </div>
@@ -162,7 +169,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/generalArea.js" asp-append-version="true"></script>
-
+    @*fanta*@
     @await RenderSectionAsync("Scripts", required: false)
+    {
+    <script src="~/js/layout.js"></script>
+        
+    }
 </body>
 </html>
