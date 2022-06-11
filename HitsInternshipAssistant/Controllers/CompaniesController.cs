@@ -48,7 +48,7 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             var company = await _context.Companies
-                .Include(x=> x.Employees)
+                .Include(x => x.Employees)
                 .Include(x => x.Vacancies)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
@@ -115,12 +115,13 @@ namespace HitsInternshipAssistant.Controllers
                     BackgroundLogoLink = backgroundImagePath,
                 };
 
+                _context.Add(company);
+
                 if (isCurrentUserHR)
                 {
                     user.CompanyId = company.Id;
                 }
 
-                _context.Add(company);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
