@@ -35,6 +35,30 @@ namespace HitsInternshipAssistant.Data
                 adminsRole = await roleManager.FindByNameAsync(Roles.Admin);
             }
 
+            var hrRole = await roleManager.FindByNameAsync(Roles.HR);
+            if (hrRole == null)
+            {
+                var roleResult = await roleManager.CreateAsync(new IdentityRole(Roles.HR));
+                if (!roleResult.Succeeded)
+                {
+                    throw new InvalidOperationException($"Unable to create {Roles.HR} role.");
+                }
+
+                hrRole = await roleManager.FindByNameAsync(Roles.HR);
+            }
+
+            var universityRole = await roleManager.FindByNameAsync(Roles.University);
+            if (universityRole == null)
+            {
+                var roleResult = await roleManager.CreateAsync(new IdentityRole(Roles.University));
+                if (!roleResult.Succeeded)
+                {
+                    throw new InvalidOperationException($"Unable to create {Roles.University} role.");
+                }
+
+                universityRole = await roleManager.FindByNameAsync(Roles.University);
+            }
+
             var adminUser = await userManager.FindByNameAsync("admin@localhost.local");
             if (adminUser == null)
             {
