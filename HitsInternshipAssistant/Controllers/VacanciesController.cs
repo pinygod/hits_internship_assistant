@@ -27,6 +27,7 @@ namespace HitsInternshipAssistant.Controllers
             {
                 if (await _userManager.IsInRoleAsync(user, "HR") && user.CompanyId != null)
                 {
+                    ViewBag.CompanyId = user.CompanyId;
                     return View(await _context.Vacancies.Where(x => x.CompanyId == user.CompanyId).ToListAsync());
                 }
             }
