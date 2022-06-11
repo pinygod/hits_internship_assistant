@@ -57,9 +57,7 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             var interns = await _context.Users
-                .Where(x => x.CompanyId == company.Id &&
-                            x.ShowInInternsList &&
-                            !Task.Run(() => _userManager.IsInRoleAsync(x, Roles.HR)).Result)
+                .Where(x => x.CompanyId == company.Id && x.ShowInInternsList)
                 .ToListAsync();
 
             var model = new CompanyDetailsViewModel
