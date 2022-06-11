@@ -104,6 +104,7 @@ a {
     left: 0;
     height: 5rem;
     align-items: center;
+    z-index: 1;
 }
 
 .header-bar {
@@ -148,6 +149,7 @@ a {
         min-width: 20rem;
         position: fixed;
         bottom: 0;
+        z-index: 1;
     }
 
 .stacked-menu {
@@ -161,13 +163,12 @@ a {
     padding-right: 20rem;
     overflow: hidden;
     display: block;
-    z-index: -999;
 }
 /*Main end*/
 .aside-menu-right {
     float: right;
     right: 0;
-    z-index:-10;
+    z-index: 1;
 }
 
 

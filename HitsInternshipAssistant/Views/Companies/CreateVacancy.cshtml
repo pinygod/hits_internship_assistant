@@ -7,8 +7,7 @@
 
 <h5>Новая вакансия</h5>
 <div class="row  d-flex justify-content-center">
-    <div class="">
-        <form asp-action="CreateVacancy"  enctype="multipart/form-data" asp-route-companyId="@ViewContext.HttpContext.Request.Query["companyId"]">
+        <form asp-action="CreateVacancy" enctype="multipart/form-data" asp-route-companyId="@ViewContext.HttpContext.Request.Query["companyId"]">
             
             <div class="form-group mt-3">
                 <label asp-for="Name" class="control-label font-weight-bold">Название</label>
@@ -35,8 +34,9 @@
                  <button type="submit" class="btn mt-3" style="background-color: #1794AC; width: 200px; color: white">Сохранить</button>
             </div>
         </form>
-    </div>
 </div>
+
+           
 
 
 @section Scripts {

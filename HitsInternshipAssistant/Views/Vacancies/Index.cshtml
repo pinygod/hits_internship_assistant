@@ -1,41 +1,74 @@
-﻿@model IEnumerable<HitsInternshipAssistant.Data.Models.Vacancy>
+﻿@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<HitsInternshipAssistant.Data.Models.Vacancy>
+@inject UserManager<ApplicationUser> UserManager
+
+@section Styles {
+<link rel="stylesheet" href="~/css/vacancyIndex.css" asp-append-version="true" />
+}
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="mb-3 mt-4">Ваши вакансии</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Company)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row w-100">
+    @if (!Model.Any())
+    {
+        <div class="d-flex flex-column h-100 justify-content-center col-9">
+            <div class="emptyTitle text-center h3 w-50">
+                Похоже, тут пока ничего нет.
+                Отдохните!
+            </div>
+            <img id="emptyImg" src="~/img/EmptyVacancyApplies.png" class="d-flex align-self-center p-0 m-0" />
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card-model card rounded-3 bg-light m-4 col-9">
+                <div class="card-model card-body rounded-3 bg-light row w-100 p-2 m-0">
+                    <div class="col-10">
+                        <h5 class="card-title">@item.Name</h5>
+                        <p class="card-text text-secondary">@item.TechStack</p>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Открыть</a>
+                    </div>
+                    <div class="col-2">
+                        <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#modal-@item.Id" class="delete-btn btn btn-danger p-2 d-flex align-items-end justify-content-center rounded-3">Удалить</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modal-@item.Id" tabindex="-1" aria-labelledby="modal-@item.Id-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger"></div>
+                        <div class="modal-body text-center">
+                            <b>Вы уверены, что хотите удалить вакансию @item.Name?</b>
+                            <form asp-action="Delete" class="mt-3" enctype="multipart/form-data" asp-route-Id="@item.Id">
+                                <div class="d-flex justify-content-center mb-2">
+                                    <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Отменить</button>
+                                    <button type="submit" class="btn btn-danger ms-3">Удалить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+    @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
+    {
+        <div class="col-2">
+            <a asp-action="CreateVacancy" asp-controller="Companies" asp-route-companyId="@ViewBag.CompanyId" class="details-btn btn p-2 rounded-3">Создать вакансию</a>
+        </div>
+    }
+
+</div>
+
+
+
