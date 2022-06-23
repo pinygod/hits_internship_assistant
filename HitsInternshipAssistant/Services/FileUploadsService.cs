@@ -17,7 +17,7 @@
         {
             var fileName = Path.GetFileName(image.FileName);
             var fileExt = Path.GetExtension(fileName);
-            if (AllowedExtensions.Contains(fileExt))
+            if (!AllowedExtensions.Contains(fileExt))
             {
                 throw new ArgumentException("This file type is prohibited");
             }
