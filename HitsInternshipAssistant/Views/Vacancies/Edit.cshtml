@@ -8,26 +8,26 @@
 <hr />
 <div class="row d-flex justify-content-center">
     <div>
-        <form asp-action="Edit">
+        <form asp-action="Edit" asp-route-id="@ViewContext.HttpContext.Request.Query["id"]">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <div class="form-group mt-3">
-                <label asp-for="Name" class="control-label font-weight-bold">Название</label>
+                <label asp-for="Name" class="control-label"  style="font-weight: bold;">Название</label>
                 <input asp-for="Name" class="form-control border-0" style="background-color: #F0F0F0;" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group  mt-3">
-                <label asp-for="RequiredSkills" class="control-label font-weight-bold">Требование к знаниям</label>
+                <label asp-for="RequiredSkills" class="control-label"  style="font-weight: bold;">Требование к знаниям</label>
                 <textarea  asp-for="RequiredSkills" class="form-control border-0"  style="background-color: #F0F0F0;"></textarea>
                 <span asp-validation-for="RequiredSkills" class="text-danger"></span>
             </div>
             <div class="form-group  mt-3">
-                <label asp-for="TechStack" class="control-label font-weight-bold">Технический стек</label>
+                <label asp-for="TechStack" class="control-label"  style="font-weight: bold;">Технический стек</label>
                 <textarea  asp-for="TechStack" class="form-control border-0"  style="background-color: #F0F0F0;"></textarea>
                 <span asp-validation-for="TechStack" class="text-danger"></span>
             </div>
             <div class="form-group  mt-3">
-                <label asp-for="AdditionalInfo" class="control-label font-weight-bold">Дополнительная информация</label>
+                <label asp-for="AdditionalInfo" class="control-label"  style="font-weight: bold;">Дополнительная информация</label>
                 <textarea  asp-for="AdditionalInfo" class="form-control border-0"  style="background-color: #F0F0F0;"></textarea>
                 <span asp-validation-for="AdditionalInfo" class="text-danger"></span>
             </div>

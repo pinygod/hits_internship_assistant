@@ -1,0 +1,36 @@
+﻿.avatar {
+    vertical-align: middle;
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+}
+
+#name {
+    font-weight: 500;
+    width: auto;
+    word-wrap: break-word;
+    word-break: break-all; /* более приоритетно */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#contancts {
+    width: auto;
+    margin-bottom: 5px !important;
+    word-wrap: break-word;
+    word-break: break-all; /* более приоритетно */
+}
+
+img.avatar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#button {
+    border-radius: 8px;
+    background-color: #1794ac !important;
+    color: white !important;
+}

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ApplicationUser>
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+    @section Styles {
+<link rel="stylesheet" href="~/css/userGetStudents.css" asp-append-version="true" />
+}
+
+@{
+    ViewData["Title"] = "GetStudents";
+    int minCourse = Model != null ? Model.Min(s => s.Course).GetValueOrDefault(0) : 0;
+    int maxCourse = Model != null ? Model.Max(s => s.Course).GetValueOrDefault(0) : 0;
+}
+
+@if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
+{
+    <h4>Список студентов</h4>
+    @if (Model != null)
+    {
+        @for (int i = minCourse; i <= maxCourse; i++)
+        {
+            List<ApplicationUser> students = Model.Where(s => s.Course == i).ToList();
+            @if (students.Any())
+            {
+                <h4>@i курс</h4>
+                <div>
+                    @foreach (var student in students)
+                    {
+                        <div id="boxForUser" class="d-flex justify-content-between col-9 mt-3 mb-3 ps-3 pt-2 pe-3 pb-2">
+                            <div id="getUserTitle" align="center"><a id="ashki" asp-action="Details" asp-controller="User" asp-route-userId="@student.Id">@student.LastName @student.FirstName</a></div>
+                            @if (student.Company != null && student.Company.Name != null)
+                            {
+                                <div id="getUserTitle" align="center">@student.Company.Name</div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        }
+    }
+
+}
+
+
+
+

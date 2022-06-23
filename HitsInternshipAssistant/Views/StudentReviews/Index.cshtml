@@ -1,35 +1,27 @@
 ﻿@model IEnumerable<HitsInternshipAssistant.Data.Models.StudentReview>
-
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Review)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Review)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section Styles {
+<link rel="stylesheet" href="~/css/userReviewsIndex.css" asp-append-version="true" />
 }
-    </tbody>
-</table>
+
+@if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
+{
+    <h4 class="mb-4">Отзывы о студентах</h4>
+    @if (Model != null)
+    {
+        foreach (var review in Model)
+        {
+            <div id="boxForUser" class="d-flex flex-column col-9 mt-3 mb-3 ps-3 pt-3 pe-3 pb-2">
+                <h5 class="mb-2" id="getUserTitle">@review.Student.LastName @review.Student.FirstName</h5>
+                <p id="review" class="mb-3">@review.Review</p>
+                <h6><a id="ashki" asp-action="Details" asp-controller="User" asp-route-userId="@review.Student.Id">Подробнее...</a></h6>
+            </div>
+        }
+    }
+
+}

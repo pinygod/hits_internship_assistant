@@ -1,0 +1,25 @@
+﻿#boxForUser {
+    background: #f0f0f0;
+    border-radius: 8px;
+}
+
+#getUserTitle {
+    font-weight: 600;
+}
+
+#review {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    box-orient: vertical;
+}
+
+#ashki:hover {
+    color: #0080ff !important; /* Цвет ссылки при наведении на нее курсора мыши */
+    text-decoration: underline !important; /* Добавляем подчеркивание */
+}
