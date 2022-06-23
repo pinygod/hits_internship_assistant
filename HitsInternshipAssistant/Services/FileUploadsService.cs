@@ -25,15 +25,30 @@
             return await UploadFileAsync(image);
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file)
+        public void DeleteFile(string path)
         {
-            var filePath = Path.Combine(hostingEnvironment.WebRootPath, AttachmentsFolder, file.FileName);
+            var file = new FileInfo(path);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+        }
+
+        private async Task<string> UploadFileAsync(IFormFile file)
+        {
+            var uploadsDirectory = Path.Combine(hostingEnvironment.WebRootPath, AttachmentsFolder);
+            if (!Directory.Exists(uploadsDirectory))
+            {
+                Directory.CreateDirectory(uploadsDirectory);
+            }
+
+            var filePath = Path.Combine(uploadsDirectory, file.FileName);
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
 
-            return filePath;
+            return Path.Combine(AttachmentsFolder, file.FileName);
         }
     }
 }
