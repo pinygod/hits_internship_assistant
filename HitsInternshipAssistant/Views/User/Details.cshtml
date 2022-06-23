@@ -9,9 +9,9 @@
 
 @if (Model != null)
 {
-    <h4 class="mb-4 ms-5">Профиль студента</h4>
+    <h4 class="mb-4 ms-4">Профиль студента</h4>
     <div class="container">
-        <div class="row col-9">
+        <div class="row col-9 ms-3">
             <div class="col-3">
                 <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
                 <p id="name">@Model.User.LastName @Model.User.FirstName @Model.User.Patronymic</p>
@@ -42,9 +42,7 @@
                 {
                     <a id="button" class="btn mt-2" asp-action="EditInternshipInfo" asp-controller="User" asp-route-userId="@Model.User.Id" role="button">Редактировать</a>
                 }
-            </div>
-             <div class="col-6">
-                @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.HR))
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.HR))
                 {
                     <a id="button" asp-action="Create" asp-controller="StudentReviews" asp-route-userId="@Model.User.Id" class="btn mt-3" role="button">Написать отзыв</a>
                 }
