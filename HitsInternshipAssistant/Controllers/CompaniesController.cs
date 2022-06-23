@@ -29,7 +29,7 @@ namespace HitsInternshipAssistant.Controllers
         }
 
         [Authorize(Roles = "Admin, University, HR")]
-        public async Task<List<ApplicationUser>> GetInterns(Guid? companyId)
+        public async Task<IActionResult> GetInterns(Guid? companyId)
         {
             if (companyId == null)
             {
@@ -37,7 +37,9 @@ namespace HitsInternshipAssistant.Controllers
                 companyId = user.CompanyId;
             }
 
-            return await _context.Users.Where(x => x.CompanyId == companyId && !Task.Run(() => _userManager.IsInRoleAsync(x, "HR")).Result).ToListAsync();
+            var interns = (await _context.Users.Where(x => x.CompanyId == companyId).ToListAsync()).Where(x => !Task.Run(() => _userManager.IsInRoleAsync(x, "HR")).Result).ToList();
+
+            return View(interns);
         }
 
         public async Task<IActionResult> Details(Guid? id)

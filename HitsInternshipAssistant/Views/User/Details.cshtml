@@ -43,6 +43,12 @@
                     <a id="button" class="btn mt-2" href="#" role="button">Редактировать</a>
                 }
             </div>
+             <div class="col-6">
+                @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.HR))
+                {
+                    <a id="button" asp-action="Create" asp-controller="StudentReviews" asp-route-userId="@Model.User.Id" class="btn mt-3" role="button">Написать отзыв</a>
+                }
+            </div>
         </div>
         <div class="container">
             @if (ViewBag.Review != null)

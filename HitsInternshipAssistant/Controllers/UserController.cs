@@ -36,13 +36,7 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Details(Guid userId)
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id != userId.ToString() &&
-                !User.IsInRole(Roles.Admin) &&
-                !User.IsInRole(Roles.University))
-            {
-                return Forbid();
-            }
-
+            
             var user = await _context.Users
                 .Include(x => x.Company)
                 .Include(d => d.WorkDirection)
