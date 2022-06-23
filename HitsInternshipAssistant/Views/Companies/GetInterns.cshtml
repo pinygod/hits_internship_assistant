@@ -1,0 +1,24 @@
+﻿@model List<ApplicationUser>
+@using HitsInternshipAssistant.Data.Models
+
+    @section Styles {
+<link rel="stylesheet" href="~/css/userDetails.css" asp-append-version="true" />
+}
+
+@if (Model != null)
+{
+    <h4 class="mb-4 ms-5">Список стажеров</h4>
+    <div class="container">
+        <div class="d-flex flex-wrap">
+            
+                @foreach(var user in Model)
+                {
+                    <a class="me-3" asp-action="Details" asp-controller="User" asp-route-userId="@user.Id">
+                    <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
+                    <p id="name">@user.FirstName @user.LastName</p>
+                    </a>
+                }
+               
+          </div>
+    </div>
+}
