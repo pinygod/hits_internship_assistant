@@ -1,0 +1,56 @@
+﻿@model UserDetailsViewModel
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+    @section Styles {
+<link rel="stylesheet" href="~/css/userDetails.css" asp-append-version="true" />
+}
+
+@if (Model != null)
+{
+    <h4 class="mb-4 ms-5">Профиль студента</h4>
+    <div class="container">
+        <div class="row col-9">
+            <div class="col-3">
+                <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
+                <p id="name">@Model.User.LastName @Model.User.FirstName</p>
+            </div>
+            <div class="col-4">
+                <h4>Контакты</h4>
+                @if (Model.User.Contacts != null)
+                {
+                    <p id="contancts">Как связаться: @Model.User.Contacts </p>
+                }
+                <p id="contancts">E-mail: @Model.User.</p>
+                @if (Model.User.PhoneNumber != null)
+                {
+                    <p id="contancts">Телефон: @Model.User.PhoneNumber </p>
+                }
+            </div>
+            <div class="col-5">
+                <h4>Информация о стажировке</h4>
+                @if (Model.User.Company != null)
+                {
+                    <p id="contancts"><b>Компания:</b> @Model.User.Company.Name</p>
+                }
+                @if (Model.User.WorkDirection != null)
+                {
+                    <p id="contancts"><b>Направление:</b> @Model.User.WorkDirection.Name</p>
+                }
+                @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
+                {
+                    <a id="button" class="btn mt-2" href="#" role="button">Редактировать</a>
+                }
+            </div>
+        </div>
+        <div class="container">
+            @if (ViewBag.Review != null)
+            {
+                <h4 class="ms-2 mt-3 mb-3">Отзыв</h4>
+                <p class="ms-2 col-9">@ViewBag.Review.Review</p>
+            }
+             <a id="button" class="btn ms-2 mt-4" href="#" role="button">Дневник практики</a>
+        </div>
+    </div>
+}

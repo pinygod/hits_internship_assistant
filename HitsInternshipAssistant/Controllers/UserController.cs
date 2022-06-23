@@ -36,8 +36,8 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Details(Guid userId)
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id != userId.ToString() ||
-                !User.IsInRole(Roles.Admin) ||
+            if (currentUser.Id != userId.ToString() &&
+                !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
             {
                 return Forbid();
@@ -45,6 +45,7 @@ namespace HitsInternshipAssistant.Controllers
 
             var user = await _context.Users
                 .Include(x => x.Company)
+                .Include(d => d.WorkDirection)
                 .FirstOrDefaultAsync(x => x.Id == userId.ToString());
 
             if (user == default)
@@ -53,7 +54,9 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             var reviews = await _context.StudentReviews.Where(x => x.Student.Id == userId.ToString()).ToListAsync();
-
+            ViewBag.Review = await _context.StudentReviews
+                .Include(x => x.Student)
+                .FirstOrDefaultAsync(m => m.Student.Id == user.Id);
             var model = new UserDetailsViewModel
             {
                 User = user,

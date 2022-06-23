@@ -1,0 +1,13 @@
+﻿#boxForUser {
+    background: #f0f0f0;
+    border-radius: 8px;
+}
+
+#getUserTitle {
+    font-weight: 600;
+}
+
+#ashki:hover {
+    color: #0080ff !important; /* Цвет ссылки при наведении на нее курсора мыши */
+    text-decoration: underline !important; /* Добавляем подчеркивание */
+}
