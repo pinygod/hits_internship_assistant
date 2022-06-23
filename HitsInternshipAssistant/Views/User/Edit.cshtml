@@ -9,7 +9,7 @@
     <h4 class="mb-4">Настройки</h4>
     <div class="row">
     <div class="col-md-6">
-        <form asp-action="Edit">
+        <form asp-action="Edit"  asp-route-userId="@ViewContext.HttpContext.Request.Query["userId"]">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
            <div class="form-group mt-3">
                 <label asp-for="FirstName" class="control-label" style="font-weight: bold;" >Имя</label>
