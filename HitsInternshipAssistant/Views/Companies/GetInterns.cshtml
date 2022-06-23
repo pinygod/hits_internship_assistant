@@ -13,7 +13,7 @@
             
                 @foreach(var user in Model)
                 {
-                    <a class="me-3" asp-action="Details" asp-controller="User" asp-route-userId="@user.Id">
+                    <a class="me-3" asp-action="Details" asp-controller="User" asp-route-userId="@user.Id" style="text-decoration: none; color: #252A34">
                     <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
                     <p id="name">@user.FirstName @user.LastName</p>
                     </a>
