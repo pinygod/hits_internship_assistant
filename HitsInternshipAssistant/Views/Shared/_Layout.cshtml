@@ -19,19 +19,37 @@
     <script src="https://kit.fontawesome.com/63ff801e25.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header class="w-100">
-        <nav id="navHeader" class="navbar navbar-light bg-white mb-3 w-100 ">
-            <div id="containerHeader" class="row w-100 ms-3 mt-2">
-                <div class="col-2">
-                    <a asp-area="" asp-page="/Index"><img src="img/logo.png" /></a>
-                    <a id="serviceName" class="navbar-brand" asp-area="" asp-page="/Index">HitsIntership</a>
+    <div class="app">
+        <header class="app-header">
+            <div class="header-bar">
+                <div class="header-bar-left p-3">
+                    <a asp-area="" asp-page="/Index"><img src="~/img/logo.png" /></a>
+                    <a id="serviceName" class="navbar-brand text-header-title" asp-area="" asp-page="/Index">HitsIntership</a>
                 </div>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="d-flex justify-content-start col-5">
-                        <div id="formContainer" class="d-flex flex-row w-75 h-100">
-                            <input type="text" id="searchForm" class="form-control" placeholder="Поиск..." aria-label="Search" />
-                            <i class="fa-solid fa-magnifying-glass d-flex align-self-center me-3"></i>
+                <div class="header-bar-center">
+                    @if (true)
+                    {
+                        <div class="header-bar-search w-75">
+                            <div id="formContainer" class="pt-1 row">
+                                <div class="col-1 d-flex justify-content-center">
+                                    <i class="fa-solid fa-magnifying-glass d-flex align-self-center"></i>
+                                </div>
+                                <div class="col-11 d-flex justify-content-start">
+                                    <input type="text" id="searchForm" class="form-control p-0" placeholder="Поиск..." aria-label="Search" />
+                                </div> 
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="header-bar-right">
+                    <div class="dropdown">
+                        <partial name="_LoginPartial" />
+                        <button onclick="OpenDropdown()" class="dropbtn"></button>
+                        <div id="LoginDropdown" class="dropdown-content">
+                             
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
                         </div>
                     </div>
                 }
@@ -40,39 +58,34 @@
                     <partial name="_LoginPartial" />
                 </div>
             </div>
-        </nav>
-    </header>
-    <div id="wrapper" class="row w-100">
-        <aside id="generalSidePanel" class="col-xl-2 col-12">
-            <ul class="listItemsSidePanel list-group">
-                @if ((!User.IsInRole(Roles.Admin)
-                && !User.IsInRole(Roles.HR)
-                && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated)
-                || User.IsInRole(Roles.HR)
-                || User.IsInRole(Roles.University))
-                {
-                    <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
-                        <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="VacancyApplies">
-                            @*MainPage*@
-                            <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
-                        </a>
-                    </li>
-                }
-                else if (User.IsInRole(Roles.Admin))
-                {
-                    <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
-                        <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
-                            @*Users*@
-                            <i class="menuIcons  fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Пользователи
-                        </a>
-                    </li>
-                    <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
-                        <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
-                            @*Vacancy*@
-                            <i class="menuIcons  fa-solid fa-suitcase ms-4 me-4 d-flex align-self-center"></i>Вакансии
-                        </a>
-                    </li>
-                }
+        </header>
+        <aside class="app aside-menu pe-4">
+            <nav class="stacked-menu">
+                <ul class="listItemsSidePanel list-group">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="VacancyApplies">
+                                @*MainPage*@
+                                <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
+                            </a>
+                        </li>
+                    }
+                    else if (User.IsInRole(Roles.Admin))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Users*@
+                                <i class="menuIcons  fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Пользователи
+                            </a>
+                        </li>
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Vacancy*@
+                                <i class="menuIcons  fa-solid fa-suitcase ms-4 me-4 d-flex align-self-center"></i>Вакансии
+                            </a>
+                        </li>
+                    }
 
                 @if (User.IsInRole(Roles.Admin) || (!User.IsInRole(Roles.Admin)
                 && !User.IsInRole(Roles.HR)
@@ -98,18 +111,18 @@
                     </li>
                 }
 
-                @if ((!User.IsInRole(Roles.Admin)
-                && !User.IsInRole(Roles.HR)
-                && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated) || User.IsInRole(Roles.HR))
-                {
-                    <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
-                        <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
-                            @*Vacancy*@
-                            <i class="menuIcons fa-solid fa-suitcase ms-4 me-4  d-flex align-self-center"></i>
-                            Вакансии
-                        </a>
-                    </li>
-                }
+                    @if ((!User.IsInRole(Roles.Admin)
+                    && !User.IsInRole(Roles.HR)
+                    && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated) || User.IsInRole(Roles.HR))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Vacancies" asp-action="Index">
+                                @*Vacancy*@
+                                <i class="menuIcons fa-solid fa-suitcase ms-4 me-4  d-flex align-self-center"></i>
+                                Вакансии
+                            </a>
+                        </li>
+                    }
 
                 else if (User.IsInRole(Roles.University))
                 {
@@ -140,10 +153,7 @@
             </main>
         </div>
     </div>
-
-
-
-    <footer class="footer text-muted pe-5 ">
+@*    <footer class="footer text-muted pe-5 mt-3">
         <div class="container d-flex  justify-content-between">
             <div>
                 &copy; Team 21, 2022
@@ -158,7 +168,7 @@
             </div>
 
         </div>
-    </footer>
+    </footer>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -166,5 +176,6 @@
     <script src="~/js/generalArea.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/js/layout.js"></script>
 </body>
 </html>

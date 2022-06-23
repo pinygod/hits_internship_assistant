@@ -50,24 +50,45 @@ namespace HitsInternshipAssistant.Controllers
         }
 
         [Authorize(Roles = "Admin, University, HR")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(Guid userId)
         {
+            var user = await _context.Users
+                .Include(x => x.Company)
+                .Include(d => d.WorkDirection)
+                .FirstOrDefaultAsync(x => x.Id == userId.ToString());
+
+            if (user == default)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Student = user;
+
             return View();
         }
 
         [Authorize(Roles = "Admin, University, HR")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateStudentReviewViewModel model)
+        public async Task<IActionResult> Create(Guid userId, string text)
         {
+            var student = await _context.Users
+                            .Include(x => x.Company)
+                            .Include(d => d.WorkDirection)
+                            .FirstOrDefaultAsync(x => x.Id == userId.ToString());
+
+            if (student == default)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                var student = await _userManager.FindByIdAsync(model.StudentId.ToString());
                 var reviewer = await _userManager.GetUserAsync(User);
 
                 StudentReview review = new()
                 {
-                    Review = model.Review,
+                    Review = text,
                     Student = student,
                     Reviewer = reviewer
                 };
@@ -75,9 +96,12 @@ namespace HitsInternshipAssistant.Controllers
                 _context.Add(review);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "User", new { userId = student.Id });
             }
-            return View(model);
+
+            ViewBag.Student = student;
+
+            return View();
         }
 
         [Authorize(Roles = "Admin, University")]

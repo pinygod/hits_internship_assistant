@@ -1,4 +1,4 @@
-﻿@model HitsInternshipAssistant.Data.Models.Company
+﻿@model CreateCompanyViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,12 +10,16 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-controller="Companies" asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortName" class="control-label"></label>
+                <input asp-for="ShortName" class="form-control" />
+                <span asp-validation-for="ShortName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
@@ -23,15 +27,40 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Contacts" class="control-label"></label>
+                <input asp-for="Contacts" class="form-control" />
+                <span asp-validation-for="Contacts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tagline" class="control-label"></label>
+                <input asp-for="Tagline" class="form-control" />
+                <span asp-validation-for="Tagline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BackgroundLogo" class="control-label"></label>
+                <input asp-for="BackgroundLogo" type="file" class="custom-file-input form-control"/>
+                <span asp-validation-for="BackgroundLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Logo"  class="custom-file-input control-label"></label>
+                <input asp-for="Logo" type="file" class="custom-file-input form-control" id="customFile"/>
+                <span asp-validation-for="Logo" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="PartnershipStartYear" class="control-label"></label>
+                <input asp-for="PartnershipStartYear" class="form-control" />
+                <span asp-validation-for="PartnershipStartYear" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button type="submit" class="btn btn-outline-primary  mt-3">Создать</button>
+
+                <a asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

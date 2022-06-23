@@ -107,7 +107,7 @@ namespace HitsInternshipAssistant.Controllers
                     return Forbid();
                 }
 
-                practiceJournal.FileLink = await _fileUploadsService.UploadFileAsync(file);
+                practiceJournal.FileLink = await _fileUploadsService.UploadImageAsync(file);
 
                 await _context.SaveChangesAsync();
 
