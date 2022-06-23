@@ -28,7 +28,7 @@
                     @foreach (var student in students)
                     {
                         <div id="boxForUser" class="d-flex justify-content-between col-9 mt-3 mb-3 ps-3 pt-2 pe-3 pb-2">
-                            <div id="getUserTitle" align="center"><a id="ashki" asp-action="Details" asp-controller="User" asp-route-userId="@student.Id">@student.LastName @student.FirstName</a></div>
+                            <div id="getUserTitle" align="center"><a id="ashki" asp-action="Details" asp-controller="User" asp-route-userId="@student.Id">@student.LastName @student.FirstName @student.Patronymic</a></div>
                             @if (student.Company != null && student.Company.Name != null)
                             {
                                 <div id="getUserTitle" align="center">@student.Company.Name</div>

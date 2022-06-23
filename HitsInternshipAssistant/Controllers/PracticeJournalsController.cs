@@ -25,8 +25,8 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Details(Guid studentId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != studentId.ToString() ||
-                !User.IsInRole(Roles.Admin) ||
+            if (user.Id != studentId.ToString() &&
+                !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
             {
                 return Forbid();
@@ -100,8 +100,8 @@ namespace HitsInternshipAssistant.Controllers
             if (practiceJournal != default)
             {
                 ApplicationUser user = await _userManager.GetUserAsync(User);
-                if (user.Id != practiceJournal.Student.Id ||
-                    !User.IsInRole(Roles.Admin) ||
+                if (user.Id != practiceJournal.Student.Id &&
+                    !User.IsInRole(Roles.Admin) &&
                     !User.IsInRole(Roles.University))
                 {
                     return Forbid();
