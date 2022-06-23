@@ -153,6 +153,7 @@ a {
         min-width: 20rem;
         position: fixed;
         bottom: 0;
+        z-index: 1;
     }
 .left-aside-menu {
     z-index: 2;
@@ -175,6 +176,7 @@ a {
 .aside-menu-right {
     float: right;
     right: 0;
+    z-index: 1;
 }
 
 .menuRefs {

@@ -1,0 +1,19 @@
+﻿.details-btn {
+    background-color: #1794AC;
+    color: white;
+}
+
+.card-model {
+    border-color: #F0F0F0 !important;
+}
+
+#emptyImg {
+    height: 70% !important;
+    width: 35% !important;
+    margin-left: 20%;
+}
+
+.emptyTitle {
+    color: #BAB8BD;
+    margin-left: 25% !important;
+}
