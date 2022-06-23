@@ -1,0 +1,21 @@
+﻿body {
+}
+.Logo{
+    width:150px;
+    height:70px;
+}
+.textColorLogo {
+    color: #1794ac !important;
+}
+.personBlock{
+    height:160px;
+    width:120px;
+}
+.avatarBlock {
+    height: 100px;
+    width: 100px;
+}
+.nameBlock {
+    height: 60px;
+    width: 100px;
+}

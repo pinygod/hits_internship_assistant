@@ -3,15 +3,118 @@
 @{
     ViewData["Title"] = "Details";
 }
+<link rel="stylesheet" href="~/css/Companies/CompanyProfile.css" asp-append-version="true" />
 
-<h1>Details</h1>
 
-<div>
-    <h4>Company</h4>
-    <hr />
-  
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="Logo mb-3">
+                <img src="~/img/Companies/ЦФТ.png" />
+            </div>
+            <h3>
+                @Model.Company.Name
+            </h3>
+            <p>
+                <b>Год начала партнерства:</b> @Model.Company.PartnershipStartYear
+            </p>
+            <p>
+                <a>
+                    <span class="textColorLogo">
+                        @Model.Company.Vacancies.Count вакансии @*Тут прикол будет с окончанием))))*@
+                    </span>
+
+                </a>
+            </p>
+            <p>
+                <b> Приориетные напрвления:</b> <span class="textColorLogo">@Model.Company.Tagline</span>
+            </p>
+            <div>
+                <p><b>Описание:</b> </p>
+                @Model.Company.Description
+            </div>
+            <div>
+                <p>
+                    <b>Контакты:</b>
+                </p>
+                <p>
+                    @Model.Company.Contacts
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <p>
+                    <b>Представители компании:</b>
+                </p>
+                <div class="row">
+                    <div class="personBlock mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                    <div class="personBlock  mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                    <div class="personBlock  mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row">
+                <p>
+                    <b>Студенты, проходящие практику в этой компании:</b>
+                </p>
+                <div class="row">
+                    <div class="personBlock  mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                    <div class="personBlock  mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                    <div class="personBlock   mr-3">
+                        <div class="avatarBlock">
+                            <img src="~/img/Shared/EmptyAvatar.png">
+                        </div>
+                        <div class="nameBlock overflow-hidden text center">
+                            <p> Иван Иванович </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
 <div>
-   @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    @* <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>*@
 </div>
