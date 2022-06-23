@@ -1,0 +1,180 @@
+﻿@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using HitsInternshipAssistant.Data.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HitsInternshipAssistant</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HitsInternshipAssistant.styles.css" asp-append-version="true" />
+
+    <script src="https://kit.fontawesome.com/63ff801e25.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <div class="header-bar">
+                <div class="header-bar-left p-3">
+                    <a asp-area="" asp-page="/Index"><img src="img/logo.png" /></a>
+                    <a id="serviceName" class="navbar-brand text-header-title" asp-area="" asp-page="/Index">HitsIntership</a>
+                </div>
+                <div class="header-bar-center">
+                    @if (true)
+                    {
+                        <div class="header-bar-search">
+                            <div id="formContainer" class="pt-1">
+                                <input type="text" id="searchForm" class="form-control" placeholder="Поиск..." aria-label="Search" />
+                                <i class="fa-solid fa-magnifying-glass d-flex align-self-center "></i>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="header-bar-right">
+                    <div class="dropdown">
+                        <partial name="_LoginPartial" />
+                        <button onclick="OpenDropdown()" class="dropbtn"></button>
+                        <div id="LoginDropdown" class="dropdown-content">
+                            <a href="#">Link 1</a>
+                            <a href="#">Link 2</a>
+                            <a href="#">Link 3</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <aside class="app aside-menu">
+            <nav class="stacked-menu">
+                <ul class="listItemsSidePanel list-group">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="VacancyApplies">
+                                @*MainPage*@
+                                <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
+                            </a>
+                        </li>
+                    }
+                    else if (User.IsInRole(Roles.Admin))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Users*@
+                                <i class="menuIcons  fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Пользователи
+                            </a>
+                        </li>
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Vacancy*@
+                                <i class="menuIcons  fa-solid fa-suitcase ms-4 me-4 d-flex align-self-center"></i>Вакансии
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole(Roles.Admin) || (!User.IsInRole(Roles.Admin)
+                    && !User.IsInRole(Roles.HR)
+                    && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Vacancies">
+                                @*Company*@
+                                <i class="menuIcons  fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                Компании
+                            </a>
+                        </li>
+                    }
+
+                    else if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.University))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Students*@
+                                <i class="menuIcons  fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                Студенты
+                            </a>
+                        </li>
+                    }
+
+                    @if ((!User.IsInRole(Roles.Admin)
+                    && !User.IsInRole(Roles.HR)
+                    && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated) || User.IsInRole(Roles.HR))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Vacancy*@
+                                <i class="menuIcons fa-solid fa-suitcase ms-4 me-4  d-flex align-self-center"></i>
+                                Вакансии
+                            </a>
+                        </li>
+                    }
+
+                    else if (User.IsInRole(Roles.University))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Company*@
+                                <i class="menuIcons p-0 fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                Компании
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="itemSidePanel p-3 list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" href='/'>
+                                @*Calendar*@
+                                <i class="menuIcons p-0 fa-solid fa-calendar-days ms-4 me-4 d-flex align-self-center"></i>График
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </aside>
+        <div class="app-main">
+            <div class="wrapper">
+                @RenderBody()
+            </div>
+        </div>
+        <div class="aside-menu aside-menu-right">
+            @*Сюда пихать правое боковое меню
+                мб надо будет overflow:hidden  сюда докинуть я хз
+            *@
+        </div>
+
+    </div>
+    <footer class="footer text-muted pe-5 ">
+        <div class="container d-flex  justify-content-between">
+            <div>
+                &copy; Team 21, 2022
+            </div>
+            <div class="d-flex">
+                <div class="pe-5">
+                    Privacy Policy
+                </div>
+                <div>
+                    Terms of Service
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/generalArea.js" asp-append-version="true"></script>
+    @*fanta*@
+    @await RenderSectionAsync("Scripts", required: false)
+    {
+    <script src="~/js/layout.js"></script>
+        
+    }
+</body>
+</html>
