@@ -27,7 +27,7 @@ namespace HitsInternshipAssistant.Controllers
         [Authorize(Roles = "Admin, University")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StudentReviews.ToListAsync());
+            return View(await _context.StudentReviews.Include(s => s.Student).ToListAsync());
         }
 
         [Authorize(Roles = "Admin, University")]
