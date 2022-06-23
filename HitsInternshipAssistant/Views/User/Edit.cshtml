@@ -1,0 +1,59 @@
+﻿@model EditUserViewModel
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+
+@if (Model != null)
+{
+    <h4 class="mb-4">Настройки</h4>
+    <div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           <div class="form-group mt-3">
+                <label asp-for="FirstName" class="control-label" style="font-weight: bold;" >Имя</label>
+                <input asp-for="FirstName" class="form-control border-0" style="background-color: #F0F0F0;"  value="@Model.FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <label asp-for="LastName" class="control-label" style="font-weight: bold;">Фамилия</label>
+                <input asp-for="LastName" class="form-control border-0" style="background-color: #F0F0F0;"  value="@Model.LastName"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+             <div class="form-group mt-3">
+                <label asp-for="Patronymic" class="control-label" style="font-weight: bold;">Отчество</label>
+                <input asp-for="Patronymic" class="form-control border-0" style="background-color: #F0F0F0;" value="@Model.Patronymic"/>
+                <span asp-validation-for="Patronymic" class="text-danger"></span>
+            </div>
+                @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.HR))
+                {
+                    <div class="form-group  mt-3">
+                        <label asp-for="Contacts" class="control-label" style="font-weight: bold;">Контакты</label>
+                        <textarea  asp-for="Contacts" class="form-control border-0"  style="background-color: #F0F0F0;"  value="@Model.Contacts"></textarea>
+                        <span asp-validation-for="Contacts" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                      <div class="mt-3">
+                            <label class="form-label" asp-for="ShowInApplicantsList"  style="font-weight: bold;">Отображать меня в списке откликнувшихся на вакансию:</label>
+                            <input type="checkbox"  asp-for="ShowInApplicantsList" value="@Model.ShowInApplicantsList">
+                            <span class="text-danger" asp-validation-for="ShowInApplicantsList"></span>
+                      </div>
+                       <div class="mt-3">
+                            <label class="form-label" asp-for="ShowInInternsList"  style="font-weight: bold;">Отображать меня в списке проходящих практику в компании:</label>
+                            <input type="checkbox"  asp-for="ShowInInternsList" value="@Model.ShowInInternsList">
+                            <span class="text-danger" asp-validation-for="ShowInInternsList"></span>
+                      </div>
+                }
+                
+           
+            <div class="form-group  mt-1">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 <button type="submit" class="btn mt-3" style="background-color: #1794AC; width: 200px; color: white">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+}

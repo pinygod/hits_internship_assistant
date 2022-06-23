@@ -70,8 +70,8 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Edit(Guid userId)
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id != userId.ToString() ||
-                !User.IsInRole(Roles.Admin) ||
+            if (currentUser.Id != userId.ToString() &&
+                !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
             {
                 return Forbid();
@@ -102,8 +102,8 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Edit(Guid userId, EditUserViewModel model)
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id != userId.ToString() ||
-                !User.IsInRole(Roles.Admin) ||
+            if (currentUser.Id != userId.ToString() &&
+                !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
             {
                 return Forbid();
