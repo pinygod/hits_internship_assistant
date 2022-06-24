@@ -6,51 +6,37 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="h4 d-flex justify-content-xl-start justify-content-center">Ваши отклики</div>
+@*<h1 class="mb-3 mt-4">Отклики на ваши вакансии</h1>*@
 
 
-@if (Model.Count() == 0)
+@if (!Model.Any())
 {
-    <div class="d-flex flex-column h-100 justify-content-center">
-        <div class="emptyTitle text-center h3 w-25">
+    <div class="d-flex flex-column h-100 justify-content-center col-9">
+        <div class="emptyTitle text-center h3 w-50">
             Похоже, тут пока ничего нет.
             Отдохните!
         </div>
-        <img id="emptyImg" src="img/EmptyVacancyApplies.png" />
+        <img id="emptyImg" src="~/img/EmptyVacancyApplies.png" class="d-flex align-self-center p-0 m-0" />
     </div>
 }
 
 else
 {
-    <table class="table">
-    <thead>
-        <tr>
-            <th>
-                Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vacancy.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vacancy.AdditionalInfo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vacancy.Applicants)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vacancy.Company.LogoLink)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @foreach (var item in Model)
+    {
+        String fullName = item.User.FirstName + " " + item.User.Patronymic + " " + item.User.LastName;
+        
+        <div class="card-model card rounded-3 bg-light m-4 col-9">
+            <div class="card-model card-body rounded-3 bg-light row w-100 p-2 m-0">
+                <div class="col-8">
+                    <h5 class="card-title">@fullName</h5>
+                    <p class="card-text text-secondary">@item.User.WorkDirection</p>
+                    <a class="ref-info w-25">Подробнее...</a>
+                </div>
+                <div class="col-4 d-flex align-self-end">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="resume-btn btn btn-primary p-2 d-flex align-items-end justify-content-center rounded-3 w-100">Резюме</a>
+                </div>
+            </div>
+        </div>
+    }
 }

@@ -14,6 +14,7 @@
 <h1 class="mb-3 mt-4">Ваши вакансии</h1>
 
 <div class="row w-100">
+
     @if (!Model.Any())
     {
         <div class="d-flex flex-column h-100 justify-content-center col-9">
@@ -26,8 +27,10 @@
     }
     else
     {
+        int i = 0;
         @foreach (var item in Model)
         {
+            i++;
             <div class="card-model card rounded-3 bg-light m-4 col-9">
                 <div class="card-model card-body rounded-3 bg-light row w-100 p-2 m-0">
                     <div class="col-10">
@@ -41,6 +44,12 @@
                 </div>
             </div>
 
+            @if ((User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University)) && i == 1)
+            {
+                <div class="col-2 float-top">
+                    <a asp-action="CreateVacancy" asp-controller="Companies" asp-route-companyId="@ViewBag.CompanyId" class="details-btn btn p-2 rounded-3">Создать вакансию</a>
+                </div>
+            }
 
             <div class="modal fade" id="modal-@item.Id" tabindex="-1" aria-labelledby="modal-@item.Id-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -60,14 +69,6 @@
             </div>
         }
     }
-
-    @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
-    {
-        <div class="col-2">
-            <a asp-action="CreateVacancy" asp-controller="Companies" asp-route-companyId="@ViewBag.CompanyId" class="details-btn btn p-2 rounded-3">Создать вакансию</a>
-        </div>
-    }
-
 </div>
 
 
