@@ -1,1 +1,50 @@
-﻿
+﻿@model VacancyApply
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var fullName = Model.User.FirstName + " " + Model.User.Patronymic + " " + Model.User.LastName;
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/userDetails.css" asp-append-version="true" />
+}
+
+<h3 class="mb-3 mt-4">Отклик</h3>
+
+   <div class="row d-flex justify-content-between">
+       <div class="col-3">
+           <img src="~/img/nophoto.jpg" class="img-circle w-100">
+           <h5 class="text-center mt-3">@fullName</h5>
+       </div>
+       <div class="col-3">
+           <h3 class="mb-3 mt-4">Контакты</h3>
+           <p>Email: @Model.User.Email </p>
+           <p>Телефон: @Model.User.PhoneNumber</p>
+       </div>
+       <div class="col-3">
+           <h3 class="mb-3 mt-4">Вакансия</h3>
+           <p>@Model.Vacancy.Name</p>
+       </div>
+       <div class="col-3">
+           <h3 class="mb-3 mt-4">Статус отклика</h3>
+           <div class="d-flex flex-row">
+               <p>@Model.Status</p>
+               <i class="fa-regular fa-pen-to-square"></i>
+           </div>
+         
+       </div>
+   </div>
+   <div>
+       <h4 class="mb-3 mt-4">Резюме</h4>
+
+       <h5 class="mb-3 mt-4">Опыт</h5>
+       <p>В рамках учебных лабораторных работ.</p>
+
+       <h5 class="mb-3 mt-4">Технологии и стек</h5>
+       <p>@Model.User.CV.WorkDirections</p>
+
+       <h5 class="mb-3 mt-4">Дополнительная информация</h5>
+       <p>@Model.User.CV.AdditionalInfo</p>
+   </div>
