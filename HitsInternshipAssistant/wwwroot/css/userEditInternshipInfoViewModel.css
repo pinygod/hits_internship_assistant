@@ -1,0 +1,18 @@
+﻿select {
+    background: #F0F0F0 !important;
+    border-radius: 10px !important;
+    border: gray !important;
+    /* font-family: 'Roboto'; */
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    line-height: 19px !important;
+    padding: 12px !important;
+}
+
+#syb {
+    background: #1794AC;
+    border-radius: 10px;
+    color: white !important;
+    width: 120px;
+}

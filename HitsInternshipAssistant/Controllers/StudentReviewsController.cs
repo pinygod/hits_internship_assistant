@@ -50,7 +50,7 @@ namespace HitsInternshipAssistant.Controllers
         }
 
         [Authorize(Roles = "Admin, University, HR")]
-        public async Task<IActionResult> CreateAsync(Guid userId)
+        public async Task<IActionResult> Create(Guid userId)
         {
             var user = await _context.Users
                 .Include(x => x.Company)

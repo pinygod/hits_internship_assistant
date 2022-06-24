@@ -34,3 +34,9 @@ img.avatar {
     background-color: #1794ac !important;
     color: white !important;
 }
+
+#button2 {
+    border-radius: 8px;
+    background-color: #adb7b8 !important;
+    color: white !important;
+}

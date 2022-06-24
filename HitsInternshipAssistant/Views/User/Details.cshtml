@@ -9,12 +9,12 @@
 
 @if (Model != null)
 {
-    <h4 class="mb-4 ms-5">Профиль студента</h4>
+    <h4 class="mb-4 ms-4">Профиль студента</h4>
     <div class="container">
-        <div class="row col-9">
+        <div class="row col-9 ms-3">
             <div class="col-3">
                 <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
-                <p id="name">@Model.User.LastName @Model.User.FirstName</p>
+                <p id="name">@Model.User.LastName @Model.User.FirstName @Model.User.Patronymic</p>
             </div>
             <div class="col-4">
                 <h4>Контакты</h4>
@@ -40,17 +40,32 @@
                 }
                 @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
                 {
-                    <a id="button" class="btn mt-2" href="#" role="button">Редактировать</a>
+                    <a id="button" class="btn mt-2" asp-action="EditInternshipInfo" asp-controller="User" asp-route-userId="@Model.User.Id" role="button">Редактировать</a>
+                }
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.HR))
+                {
+                    <a id="button" asp-action="Create" asp-controller="StudentReviews" asp-route-userId="@Model.User.Id" class="btn mt-3" role="button">Написать отзыв</a>
                 }
             </div>
         </div>
         <div class="container">
+            <h4 class="ms-2 mt-3 mb-3">Отзыв</h4>
             @if (ViewBag.Review != null)
             {
-                <h4 class="ms-2 mt-3 mb-3">Отзыв</h4>
                 <p class="ms-2 col-9">@ViewBag.Review.Review</p>
             }
-             <a id="button" class="btn ms-2 mt-4" href="#" role="button">Дневник практики</a>
+            else
+            {
+                <p class="ms-2 col-9">Отзыв пока не оставили...</p>
+            }
+            @if (Model.User.PracticeJournalId != null)
+            {
+                <a id="button" class="btn ms-2 mt-4" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@Model.User.Id" role="button">Дневник практики</a>
+            }
+            else
+            {
+                <a id="button2" class="btn ms-2 mt-4" role="button">Дневник практики</a>
+            }
         </div>
     </div>
 }

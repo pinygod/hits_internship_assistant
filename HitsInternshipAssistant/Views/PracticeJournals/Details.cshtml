@@ -1,36 +1,31 @@
-﻿@model HitsInternshipAssistant.Data.Models.PracticeJournal
+﻿@model PracticeJournal
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 
-@{
-    ViewData["Title"] = "Details";
+    @section Styles {
+<link rel="stylesheet" href="~/css/userDetails.css" asp-append-version="true" />
 }
 
-<h1>Details</h1>
+<div class="container">
+    <h4 class="mb-3">Дневник практики студента</h4>
+    <form asp-action="AddFile" asp-controller="PracticeJournals" asp-route-id="@Model.Student.PracticeJournalId"  enctype="multipart/form-data">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="file" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="button" type="submit" value="Загрузить шаблон" class="btn btn-default" />
+            </div>
+    </form>
+    <h5 class="mb-3">Дневник практики студента @Model.Student.LastName @Model.Student.FirstName @Model.Student.Patronymic</h5>
+    <form asp-action="ChangeStatus" asp-controller="PracticeJournals" method="post">
+        <h5>Дневник </h5>
+       
+        <input id="button" type="submit" value="Сохранить" class="btn btn-default be-2" />
+       
+    </form>
 
-<div>
-    <h4>PracticeJournal</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FileLink)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FileLink)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Review)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Review)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="PracticeJournals" asp-route-userId="@Model.Student.Id">Отмена</a>
 </div>

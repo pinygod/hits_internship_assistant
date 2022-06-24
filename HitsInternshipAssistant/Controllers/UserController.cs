@@ -36,13 +36,7 @@ namespace HitsInternshipAssistant.Controllers
         public async Task<IActionResult> Details(Guid userId)
         {
             ApplicationUser currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser.Id != userId.ToString() &&
-                !User.IsInRole(Roles.Admin) &&
-                !User.IsInRole(Roles.University))
-            {
-                return Forbid();
-            }
-
+            
             var user = await _context.Users
                 .Include(x => x.Company)
                 .Include(d => d.WorkDirection)
@@ -132,7 +126,7 @@ namespace HitsInternshipAssistant.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin, Unversity")]
+        [Authorize(Roles = "Admin, University")]
         public async Task<IActionResult> EditInternshipInfo(Guid userId)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -146,31 +140,36 @@ namespace HitsInternshipAssistant.Controllers
                 CompanyId = user.CompanyId,
                 WorkDirectionId = user.WorkDirectionId
             };
-
-            ViewBag["Companies"] = await _context.Companies.ToListAsync();
-            ViewBag["WorkDirections"] = await _context.WorkDirections.ToListAsync();
+            ViewBag.User = user;
+            ViewBag.Companies = await _context.Companies.ToListAsync();
+            ViewBag.WorkDirections = await _context.WorkDirections.ToListAsync();
 
             return View(model);
         }
 
-        [Authorize(Roles = "Admin, Unversity")]
+        [Authorize(Roles = "Admin, University")]
         [HttpPost]
         public async Task<IActionResult> EditInternshipInfo(Guid userId, EditInternshipInfoViewModel model)
         {
+            if (userId == null) {
+                return BadRequest();
+            }
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == default)
+            {
+                return BadRequest();
+            }
+
+            ViewBag.Companies = await _context.Companies.ToListAsync();
+            ViewBag.WorkDirections = await _context.WorkDirections.ToListAsync();
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(userId.ToString());
-                if (user == default)
-                {
-                    return BadRequest();
-                }
-
                 user.CompanyId = model.CompanyId;
                 user.WorkDirectionId = model.WorkDirectionId;
-
+                ViewBag.User = user;
                 await _context.SaveChangesAsync();
 
-                return View(model);
+                return RedirectToAction("Details", new { userId = userId });
             }
 
             return View(model);
