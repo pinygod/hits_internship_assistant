@@ -11,3 +11,9 @@
     color: #0080ff !important; /* Цвет ссылки при наведении на нее курсора мыши */
     text-decoration: underline !important; /* Добавляем подчеркивание */
 }
+
+#button {
+    border-radius: 8px;
+    background-color: #1794ac !important;
+    color: white !important;
+}

@@ -1,0 +1,89 @@
+﻿select {
+    background: #F0F0F0 !important;
+    border-radius: 10px !important;
+    border: gray !important;
+    /* font-family: 'Roboto'; */
+    font-style: normal !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+    line-height: 19px !important;
+    padding: 12px !important;
+}
+
+#syb {
+    background: #1794AC;
+    border-radius: 10px;
+    color: white !important;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+}
+
+#name {
+    font-weight: 500;
+    width: auto;
+    word-wrap: break-word;
+    word-break: break-all; /* более приоритетно */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#contancts {
+    width: auto;
+    margin-bottom: 5px !important;
+    word-wrap: break-word;
+    word-break: break-all; /* более приоритетно */
+}
+
+img.avatar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#button {
+    border-radius: 8px;
+    background-color: #1794ac !important;
+    color: white !important;
+}
+
+#button2 {
+    border-radius: 8px;
+    background-color: #adb7b8 !important;
+    color: white !important;
+}
+
+#book {
+    color: #0d6efd !important;
+    text-decoration: underline !important;
+}
+
+.underline {
+    text-decoration: underline !important;
+}
+
+#text {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgb(240, 240, 240);
+    border: none;
+}
+
+    #text::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 20%;
+        top: 30%;
+        z-index: 1; 
+        background: rgba(255,255,230,0.9); 
+        font-size: 11px; 
+        padding: 5px 10px; 
+        border: 1px solid #333; 
+    }

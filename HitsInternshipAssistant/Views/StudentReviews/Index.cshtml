@@ -16,12 +16,26 @@
     {
         foreach (var review in Model)
         {
-            <div id="boxForUser" class="d-flex flex-column col-9 mt-3 mb-3 ps-3 pt-3 pe-3 pb-2">
+            <div id="boxForUser" class="d-flex flex-column col-9 ms-3 mt-3 mb-3 ps-3 pt-3 pe-3 pb-2">
                 <h5 class="mb-2" id="getUserTitle">@review.Student.LastName @review.Student.FirstName</h5>
                 <p id="review" class="mb-3">@review.Review</p>
                 <h6><a id="ashki" asp-action="Details" asp-controller="User" asp-route-userId="@review.Student.Id">Подробнее...</a></h6>
             </div>
         }
     }
+    else
+    {
+        <div class="d-flex flex-column h-100 justify-content-center col-9">
+            <div class="emptyTitle text-center h3 w-50">
+                Похоже, тут пока ничего нет.
+                Отдохните!
+            </div>
+            <img id="emptyImg" src="~/img/EmptyVacancyApplies.png" class="d-flex align-self-center p-0 m-0" />
+        </div>
+    }
 
+}
+else
+{
+    <h4 class="mb-4">Доступ запрещен! Если вы попали сюда, сообщите администратору по адресу adminHitsIntership@mail.ru!</h4>
 }

@@ -1,47 +1,78 @@
 ﻿@model IEnumerable<HitsInternshipAssistant.Data.Models.PracticeJournal>
+@using HitsInternshipAssistant.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+    @section Styles {
+<link rel="stylesheet" href="~/css/userReviewsIndex.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/userGetStudents.css" asp-append-version="true" />
+}
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FileLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Review)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FileLink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Review)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@{
+    ViewData["Title"] = "GetStudents";
+    int minCourse = Model != null ? Model.Min(s => s?.Student?.Course).GetValueOrDefault(0) : 0;
+    int maxCourse = Model != null ? Model.Max(s => s?.Student?.Course).GetValueOrDefault(0) : 0;
 }
-    </tbody>
-</table>
+
+@if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
+{
+    <a id="button" class="btn ms-3 ms-2 mt-4 mb-4" role="button">Загрузить шаблон дневника практики</a>
+    <h4 class="ms-3">Список студентов, сдавших дневник практики</h4>
+    @if (Model != null)
+    {
+        @for (int i = minCourse; i <= maxCourse; i++)
+        {
+            List<PracticeJournal> reviews = Model.Where(s => s.Student?.Course == i).ToList();
+            @if (reviews.Any())
+            {
+                <h4 class="ms-3">@i курс</h4>
+                <div>
+                    @foreach (PracticeJournal review in reviews)
+                    {
+                        <div id="boxForUser" class="d-flex flex-column col-9 ms-3 mt-3 mb-3 ps-3 pt-3 pe-3 pb-2">
+                            <h5 class="mb-2" id="getUserTitle">@review.Student.LastName @review.Student.FirstName @review.Student.Patronymic</h5>
+                            <div class="d-flex mb-1">
+                                <h6 class="me-2">Текущий статус дневника практики: </h6>
+                                @{
+                                    switch (review.Status)
+                                    {
+                                        case PracticeJournalStatus.Pending:
+                                            <h6 class="underline">На проверке</h6>
+                                            break;
+                                        case PracticeJournalStatus.Accepted:
+                                            <h6 class="underline">Принят</h6>
+                                            break;
+                                        case PracticeJournalStatus.Declined:
+                                            <h6 class="underline">Отклонен</h6>
+                                            break;
+                                        default:
+                                            <h6 class="underline">Не сдан</h6>
+                                            break;
+
+                                    }
+                                }
+                            </div>
+                            <h6><a id="ashki" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@review.Student.Id">Подробнее...</a></h6>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <div class="d-flex flex-column h-100 justify-content-center col-9">
+            <div class="emptyTitle text-center h3 w-50">
+                Похоже, тут пока ничего нет.
+                Отдохните!
+            </div>
+            <img id="emptyImg" src="~/img/EmptyVacancyApplies.png" class="d-flex align-self-center p-0 m-0" />
+        </div>
+    }
+
+}

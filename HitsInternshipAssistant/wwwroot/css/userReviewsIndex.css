@@ -23,3 +23,8 @@
     color: #0080ff !important; /* Цвет ссылки при наведении на нее курсора мыши */
     text-decoration: underline !important; /* Добавляем подчеркивание */
 }
+
+.emptyTitle {
+    color: #BAB8BD;
+    margin-left: 25% !important;
+}

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HitsInternshipAssistant.styles.css" asp-append-version="true" />
-    @RenderSection("Styles", false) 
+    @RenderSection("Styles", false)
     <script src="https://kit.fontawesome.com/63ff801e25.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -75,12 +75,25 @@
                 <ul class="listItemsSidePanel list-group">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
-                            <a class="menuRefs p-0 m-0 d-flex flex-row"  asp-controller="VacancyApplies" asp-action="Index">
-                                @*MainPage*@
-                                <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
-                            </a>
-                        </li>
+                        if (User.IsInRole(Roles.University))
+                        {
+
+                            <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                                <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="StudentReviews" asp-action="Index">
+                                    @*MainPage для университета*@
+                                    <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                                <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="VacancyApplies" asp-action="Index">
+                                    @*MainPage*@
+                                    <i class="menuIcons fa-solid fa-house ms-4 me-4 d-flex align-self-center"></i>Главная
+                                </a>
+                            </li>
+                        }
                     }
                     else if (User.IsInRole(Roles.Admin))
                     {
@@ -98,6 +111,17 @@
                         </li>
                     }
 
+                    @if (User.IsInRole(Roles.University))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="PracticeJournals" asp-action="Index">
+                                @*Дневники практик для деканата*@
+                                <i class="menuIcons fa-solid fa-book ms-4 me-4 d-flex align-self-center"></i>Дневники практики
+                            </a>
+                        </li>
+                    }
+
+
                     @if (User.IsInRole(Roles.Admin) || (!User.IsInRole(Roles.Admin)
                     && !User.IsInRole(Roles.HR)
                     && !User.IsInRole(Roles.University) && User.Identity.IsAuthenticated))
@@ -105,17 +129,27 @@
                         <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
                             <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Vacancies" asp-action="Index">
                                 @*Company*@
-                                <i class="menuIcons  fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                <i class="menuIcons  fa-solid fa-briefcase ms-4 me-4 d-flex align-self-center"></i>
                                 Компании
                             </a>
                         </li>
                     }
 
-                    else if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.University))
+                    else if (User.IsInRole(Roles.HR))
                     {
                         <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
                             <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Companies" asp-action="GetInterns">
-                                @*Students*@
+                                @*Students for HR*@
+                                <i class="menuIcons  fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                Студенты
+                            </a>
+                        </li>
+                    }
+                    else if (User.IsInRole(Roles.University))
+                    {
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="User" asp-action="GetStudents">
+                                @*Students for university*@
                                 <i class="menuIcons  fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
                                 Студенты
                             </a>
@@ -140,7 +174,7 @@
                         <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
                             <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Companies" asp-action="Index">
                                 @*Company*@
-                                <i class="menuIcons p-0 fa-solid fa-globe ms-4 me-4 d-flex align-self-center"></i>
+                                <i class="menuIcons p-0 fa-solid fa-briefcase ms-4 me-4 d-flex align-self-center"></i>
                                 Компании
                             </a>
                         </li>
@@ -159,7 +193,7 @@
             </nav>
         </aside>
         <div class="app-main">
-            <div class="wrapper">
+            <div class="wrapper ms-3">
                 @RenderBody()
             </div>
         </div>

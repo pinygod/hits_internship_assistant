@@ -4,17 +4,65 @@
 @inject UserManager<ApplicationUser> UserManager
 
     @section Styles {
-<link rel="stylesheet" href="~/css/userDetails.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/practiceDetails.css" asp-append-version="true" />
 }
 
-<div class="container">
-    <h5 class="mb-3">Дневник практики студента @Model.Student.LastName @Model.Student.FirstName @Model.Student.Patronymic</h5>
-    <form asp-action="ChangeStatus" asp-controller="PracticeJournals" method="post">
-        <h5>Дневник </h5>
-       
-        <input id="button" type="submit" value="Сохранить" class="btn btn-default be-2" />
-       
-    </form>
+@if (Model != null)
+{
+    <div class="container">
+        <form class="mb-5" method="post">
+            <h5 class="mb-3">Дневник практики студента @Model.Student.LastName @Model.Student.FirstName @Model.Student.Patronymic</h5>
+            <a id="book" href="#">Скачать дневник...</a>
+        </form>
+        <form asp-action="ChangeStatus" asp-controller="PracticeJournals" method="post">
+        </form>
+        <div>
+            <div class="d-flex mb-1">
+                <h6 class="me-2">Текущий статус дневника практики: </h6>
+                @{
+                    switch (Model.Status)
+                    {
+                        case PracticeJournalStatus.Pending:
+                            <h6 class="underline">На проверке</h6>
+                            break;
+                        case PracticeJournalStatus.Accepted:
+                            <h6 class="underline">Принят</h6>
+                            break;
+                        case PracticeJournalStatus.Declined:
+                            <h6 class="underline">Отклонен</h6>
+                            break;
+                        default:
+                            <h6 class="underline">Не сдан</h6>
+                            break;
 
-    <a asp-action="Details" asp-controller="PracticeJournals" asp-route-userId="@Model.Student.Id">Отмена</a>
-</div>
+                    }
+                }
+            </div>
+            <div class="dropdown mb-4">
+                <button id="button" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Изменить статус
+                </button>
+                <div class="dropdown-menu">
+                    <form asp-controller="PracticeJournals" asp-action="ChangeStatus" asp-route-id="@Model.Id" class="px-4 py-3" method="post">
+                        <div class="form-group">
+                            <label class="mb-2">Изменить статус на:</label>
+                            <select class="form-control mb-3" name="status">
+                                <option value="@PracticeJournalStatus.Pending">На проверке</option>
+                                <option value="@PracticeJournalStatus.Accepted">Принят</option>
+                                <option value="@PracticeJournalStatus.Declined">Отклонен</option>
+                            </select>
+                        </div>
+                        <button id="button" type="submit" class="btn">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+            <h5 class="mb-3">Отзыв к дневнику практики</h5>
+            <form style="width: 100%" asp-controller="PracticeJournals" asp-action="AddReview" asp-route-id="@Model.Id" method="post">
+                <textarea title="Чтобы сохранить отзыв к дневнику практики - нажмите кнопку 'Сохранить'" name="review" id="text" placeholder="Введите отзыв к дневнику практики" style="resize:both;">@Model.Review</textarea>
+                <button style="display:block;" id="button" type="submit" class="btn mt-2 mb-3">Сохранить</button>
+            </form>
+        </div>
+
+        <a id="syb" class="btn mb-4 mt-4" asp-action="Details" asp-controller="User" asp-route-userId="@Model.Student.Id">Вернуться назад</a>
+    </div>
+}

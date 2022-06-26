@@ -21,10 +21,27 @@ namespace HitsInternshipAssistant.Controllers
             _fileUploadsService = fileUploadsService;
         }
 
+        [Authorize(Roles = "Admin, University")]
+        public async Task<IActionResult> Index()
+        {
+            return View(
+                await _context.PracticeJournal.Include(x => x.Student)
+                .ThenInclude(c => c.Company)
+                .Where(p => p.Status != PracticeJournalStatus.Empty)
+                .ToListAsync()
+                );
+        }
+
         [Authorize]
         public async Task<IActionResult> Details(Guid studentId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
+            ApplicationUser userTwo = await _userManager.FindByIdAsync(studentId.ToString());
+            if (userTwo == null)
+            {
+                return BadRequest();
+            }
+
             if (user.Id != studentId.ToString() &&
                 !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
@@ -58,14 +75,14 @@ namespace HitsInternshipAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReview(Guid id, string review)
         {
-            var practiceJournal = await _context.PracticeJournal.FindAsync(id);
+            var practiceJournal = await _context.PracticeJournal.Include(s => s.Student).FirstOrDefaultAsync(p => p.Id == id);
             if (practiceJournal != default)
             {
                 practiceJournal.Review = review;
 
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return RedirectToAction("Details", new { studentId = practiceJournal.Student.Id });
             }
             else
             {
@@ -77,14 +94,14 @@ namespace HitsInternshipAssistant.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(Guid id, PracticeJournalStatus status)
         {
-            var practiceJournal = await _context.PracticeJournal.FindAsync(id);
+            var practiceJournal = await _context.PracticeJournal.Include(s => s.Student).FirstOrDefaultAsync(p => p.Id == id);
             if (practiceJournal != default)
             {
                 practiceJournal.Status = status;
 
                 await _context.SaveChangesAsync();
 
-                return Ok();
+                return RedirectToAction("Details", new { studentId = practiceJournal.Student.Id });
             }
             else
             {
