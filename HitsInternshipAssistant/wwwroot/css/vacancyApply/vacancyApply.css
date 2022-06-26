@@ -9,3 +9,13 @@
     width: 35% !important;
     margin-left:20%;
 }
+
+.resume-btn {
+    background-color: #1794AC;
+    color: white;
+}
+
+.ref-info {
+    color: #1794AC;
+    cursor: none;
+}

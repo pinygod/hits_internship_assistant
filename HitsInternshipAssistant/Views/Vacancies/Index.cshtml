@@ -11,9 +11,20 @@
     ViewData["Title"] = "Index";
 }
 
+@if ((User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University)))
+{
+    <h1 class="mb-3 mt-4">Ваши вакансии</h1>
+}
+else
+{
+    <h1 class="mb-3 mt-4">Вакансии</h1>
+}
+
+
 <h1 class="mb-3 mt-4">Ваши вакансии</h1>
 
 <div class="row w-100">
+
     @if (!Model.Any())
     {
         <div class="d-flex flex-column h-100 justify-content-center col-9">
@@ -26,21 +37,41 @@
     }
     else
     {
+        int i = 0;
         @foreach (var item in Model)
         {
+            i++;
             <div class="card-model card rounded-3 bg-light m-4 col-9">
                 <div class="card-model card-body rounded-3 bg-light row w-100 p-2 m-0">
                     <div class="col-10">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text text-secondary">@item.TechStack</p>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Открыть</a>
+                        @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
+                        {
+                            <a asp-action="Details" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Открыть</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Apply" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Откликнуться</a>
+                        }
+
                     </div>
                     <div class="col-2">
-                        <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#modal-@item.Id" class="delete-btn btn btn-danger p-2 d-flex align-items-end justify-content-center rounded-3">Удалить</a>
+                        @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#modal-@item.Id" class="delete-btn btn btn-danger p-2 d-flex align-items-end justify-content-center rounded-3">Удалить</a>
+                        }
+                        
                     </div>
                 </div>
             </div>
 
+            @if ((User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University)) && i == 1)
+            {
+                <div class="col-2 float-top">
+                    <a asp-action="CreateVacancy" asp-controller="Companies" asp-route-companyId="@ViewBag.CompanyId" class="details-btn btn p-2 rounded-3">Создать вакансию</a>
+                </div>
+            }
 
             <div class="modal fade" id="modal-@item.Id" tabindex="-1" aria-labelledby="modal-@item.Id-label" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -60,14 +91,6 @@
             </div>
         }
     }
-
-    @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
-    {
-        <div class="col-2">
-            <a asp-action="CreateVacancy" asp-controller="Companies" asp-route-companyId="@ViewBag.CompanyId" class="details-btn btn p-2 rounded-3">Создать вакансию</a>
-        </div>
-    }
-
 </div>
 
 
