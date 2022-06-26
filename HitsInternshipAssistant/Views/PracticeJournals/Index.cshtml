@@ -17,6 +17,7 @@
     ViewData["Title"] = "GetStudents";
     int minCourse = Model != null ? Model.Min(s => s?.Student?.Course).GetValueOrDefault(0) : 0;
     int maxCourse = Model != null ? Model.Max(s => s?.Student?.Course).GetValueOrDefault(0) : 0;
+    bool existContent = false;
 }
 
 @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
@@ -30,6 +31,7 @@
             List<PracticeJournal> reviews = Model.Where(s => s.Student?.Course == i).ToList();
             @if (reviews.Any())
             {
+                existContent = true;
                 <h4 class="ms-3">@i курс</h4>
                 <div>
                     @foreach (PracticeJournal review in reviews)
@@ -64,7 +66,7 @@
             }
         }
     }
-    else
+    if (!existContent)
     {
         <div class="d-flex flex-column h-100 justify-content-center col-9">
             <div class="emptyTitle text-center h3 w-50">
