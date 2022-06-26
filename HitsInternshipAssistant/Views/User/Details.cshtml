@@ -60,11 +60,11 @@
             }
             @if (Model.User.PracticeJournalId != null)
             {
-                <a id="button" class="btn ms-2 mt-4" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@Model.User.Id" role="button">Дневник практики</a>
+                <a id="button" class="btn ms-2 mt-4 mb-4" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@Model.User.Id" role="button">Дневник практики</a>
             }
             else
             {
-                <a id="button2" class="btn ms-2 mt-4" role="button">Дневник практики</a>
+                <a id="button2" class="btn ms-2 mt-4 mb-4" role="button">Дневник практики</a>
             }
         </div>
     </div>
