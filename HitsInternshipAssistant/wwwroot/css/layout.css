@@ -104,7 +104,7 @@ a {
     left: 0;
     height: 80px;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .half-header {
@@ -155,8 +155,9 @@ a {
         bottom: 0;
         z-index: 1;
     }
+
 .left-aside-menu {
-    z-index: 1;
+    z-index: 2;
 }
 
 .stacked-menu {
@@ -169,7 +170,6 @@ a {
     padding-left: 20rem;
     padding-right: 20rem;
     display: block;
-    z-index: 0;
 }
 /*Main end*/
 .aside-menu-right {
@@ -217,25 +217,25 @@ a {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
-}
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        cursor: pointer;
+    }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #ddd;
-    cursor: pointer;
-}
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+            cursor: pointer;
+        }
 
-.dropdown-content .hover-helper:hover {
-    background-color: #ddd;
-    cursor: pointer;
-}
+    .dropdown-content .hover-helper:hover {
+        background-color: #ddd;
+        cursor: pointer;
+    }
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
