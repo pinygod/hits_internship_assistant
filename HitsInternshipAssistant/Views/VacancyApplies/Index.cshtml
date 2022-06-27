@@ -34,7 +34,9 @@ else
                     <a class="ref-info w-25">Подробнее...</a>
                 </div>
                 <div class="col-4 d-flex align-self-end">
-                    <a asp-action="Details" asp-route-id="@item.Id" class="resume-btn btn btn-primary p-2 d-flex align-items-end justify-content-center rounded-3 w-100">Резюме</a>
+                    <form asp-action="Details" asp-route-id="@item.Id" class="w-100" method="post">
+                    <button class="resume-btn btn btn-primary p-2 d-flex align-items-end justify-content-center rounded-3 w-100">Резюме</button>
+                    </form>
                 </div>
             </div>
         </div>
