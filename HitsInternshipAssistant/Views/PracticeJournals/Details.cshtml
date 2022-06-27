@@ -11,8 +11,9 @@
 {
     <div class="container">
         <form class="mb-5" method="post">
+            @{string fileName = "дневник_практики_" + Model.Student.LastName + "_" + Model.Student.FirstName+"_" + @Model.Student.Course + "курс";}
             <h5 class="mb-3">Дневник практики студента @Model.Student.LastName @Model.Student.FirstName @Model.Student.Patronymic</h5>
-            <a id="book" href="#">Скачать дневник...</a>
+            <a id="book" href="@Model.FileLink" download="@fileName">Скачать дневник...</a>
         </form>
         <form asp-action="ChangeStatus" asp-controller="PracticeJournals" method="post">
         </form>
