@@ -4,10 +4,10 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @section Styles {
-<link rel="stylesheet" href="~/css/vacancyIndex.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/vacancyIndex.css" asp-append-version="true" />
 }
 
-@{
+    @{
     ViewData["Title"] = "Index";
 }
 
@@ -42,22 +42,17 @@ else
                     <div class="col-10">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text text-secondary">@item.TechStack</p>
-                        @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <a asp-action="Details" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Открыть</a>
                         }
-                        else
-                        {
-                            <a asp-action="Apply" asp-route-id="@item.Id" class="details-btn btn w-25 p-2 rounded-3">Откликнуться</a>
-                        }
-
                     </div>
                     <div class="col-2">
                         @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University))
                         {
                             <a asp-action="Delete" asp-route-id="@item.Id" data-bs-toggle="modal" data-bs-target="#modal-@item.Id" class="delete-btn btn btn-danger p-2 d-flex align-items-end justify-content-center rounded-3">Удалить</a>
                         }
-                        
+
                     </div>
                 </div>
             </div>
