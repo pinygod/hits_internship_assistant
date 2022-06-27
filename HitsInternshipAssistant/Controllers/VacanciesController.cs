@@ -19,7 +19,8 @@ namespace HitsInternshipAssistant.Controllers
             _context = context;
             _userManager = userManager;
         }
-
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -35,9 +36,9 @@ namespace HitsInternshipAssistant.Controllers
         }
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index(Guid companyId)
+        public async Task<IActionResult> GetCompanyVacantions(Guid companyId)
         {
-            return View(
+            return View("Index",
                 await _context.Vacancies
                 .Include(x => x.Company)
                 .Where(x => x.CompanyId == companyId)
