@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
     Layout = "Layouts/_Layout";
 }
-@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.HR))
+@if (User.IsInRole(Roles.Admin))
 {
     <p>
         <a asp-action="Create">Create New</a>

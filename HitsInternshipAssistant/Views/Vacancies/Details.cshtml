@@ -17,7 +17,7 @@
                 <h2 class="mt-4">@Model.Vacancy.Name</h2>
 
             </div>
-            <div class="col" style="position:relative"> 
+            <div class="col" style="position:relative">
                 <img style="object-fit:none;position: absolute; bottom:0" src="@Model.Vacancy.Company.LogoLink" />
             </div>
         </div>
@@ -32,7 +32,14 @@
             <p class="text-secondary mb-3 mt-1">@Model.Vacancy.AdditionalInfo</p>
         </div>
     </div>
-
+    @if (!(User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University)))
+    {
+        <form asp-action="Apply" class="mt-3"  asp-route-vacancyId="@Model.Vacancy.Id">
+            <div class="d-flex justify-content-start  mb-2">
+                <button type="submit" style="background-color:#1794AC"  class="btn ms-3 text-white">Откликнуться</button>
+            </div>
+        </form>
+    }
     @if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin))
     {
         <div class="col-2">
