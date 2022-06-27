@@ -1,4 +1,4 @@
-﻿ #nullable disable
+﻿#nullable disable
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HitsInternshipAssistant.Data;
@@ -32,6 +32,17 @@ namespace HitsInternshipAssistant.Controllers
                 }
             }
             return View(await _context.Vacancies.Include(v => v.Company).ToListAsync());
+        }
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Index(Guid companyId)
+        {
+            return View(
+                await _context.Vacancies
+                .Include(x => x.Company)
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync()
+                );
         }
 
         public async Task<IActionResult> Details(Guid? id)

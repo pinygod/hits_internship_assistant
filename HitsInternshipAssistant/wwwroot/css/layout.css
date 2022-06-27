@@ -86,9 +86,10 @@
 }
 
 
-.footer {
+.footer,push {
     box-shadow: none !important;
     border: none !important;
+    height:60px;
 }
 
 a {
@@ -105,6 +106,7 @@ a {
     height: 80px;
     align-items: center;
     z-index: 2;
+    background:white;
 }
 
 .half-header {

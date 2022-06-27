@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="~/HitsInternshipAssistant.styles.css" asp-append-version="true" />
     @RenderSection("Styles", false)
     <script src="https://kit.fontawesome.com/63ff801e25.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="app">
@@ -43,9 +46,9 @@
                             <button onclick="OpenDropdown()" class="dropbtn">@User.Identity?.Name</button>
                             <div id="LoginDropdown" class="dropdown-content bg-white">
                                 <a class="border-dark border-bottom text-black" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Настройки</a>
-                                <div class="hover-helper">
-                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                                        <button class="btn btn-link text-black text-decoration-none btn-block" type="submit">Выход</button>
+                                <div class="hover-helper ">
+                                    <form class="form-inline text-left" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                                        <button class="btn btn-link text-black text-decoration-none btn-block w-100 text-start" type="submit">Выход</button>
                                     </form>
                                 </div>
                             </div>
@@ -206,9 +209,10 @@
         </div>
         <div class="aside-menu aside-menu-right">
             @*Сюда пихать правое боковое меню
-                мб надо будет overflow:hidden  сюда докинуть я хз
+            мб надо будет overflow:hidden  сюда докинуть я хз
             *@
         </div>
+        <div class="push"></div>
     </div>
     <footer class="footer text-muted pe-5 ">
         <div class="container d-flex  justify-content-between">
