@@ -86,9 +86,10 @@
 }
 
 
-.footer {
+.footer,push {
     box-shadow: none !important;
     border: none !important;
+    height:60px;
 }
 
 a {
