@@ -43,8 +43,8 @@
        <p>В рамках учебных лабораторных работ.</p>
 
        <h5 class="mb-3 mt-4">Технологии и стек</h5>
-       <p>@Model.User.CV.WorkDirections</p>
+       <p>@Model.User?.CV?.WorkDirections</p>
 
        <h5 class="mb-3 mt-4">Дополнительная информация</h5>
-       <p>@Model.User.CV.AdditionalInfo</p>
+       <p>@Model.User?.CV?.AdditionalInfo</p>
    </div>

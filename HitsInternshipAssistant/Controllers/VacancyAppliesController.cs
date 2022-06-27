@@ -64,9 +64,9 @@ namespace HitsInternshipAssistant.Controllers
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            if (user.Id != vacancyApply.User.Id ||
-                !User.IsInRole(Roles.Admin) ||
-                !User.IsInRole(Roles.University) ||
+            if (user.Id != vacancyApply.User.Id &&
+                !User.IsInRole(Roles.Admin) &&
+                !User.IsInRole(Roles.University) &&
                 !User.IsInRole(Roles.HR))
             {
                 return Forbid();
