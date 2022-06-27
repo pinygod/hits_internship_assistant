@@ -178,6 +178,13 @@
                                 Компании
                             </a>
                         </li>
+                        <li class="itemSidePanel p-3  list-group-item d-flex justify-content-start">
+                            <a class="menuRefs p-0 m-0 d-flex flex-row" asp-controller="Vacancies" asp-action="Index">
+                                @*Vacancy*@
+                                <i class="menuIcons fa-solid fa-suitcase ms-4 me-4  d-flex align-self-center"></i>
+                                Вакансии
+                            </a>
+                        </li>
                     }
 
                     @if (User.Identity.IsAuthenticated)
