@@ -11,7 +11,10 @@
     ViewData["Title"] = "Index";
 }
 
-@if ((User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin) || User.IsInRole(Roles.University)))
+@if (User.IsInRole(Roles.HR) || User.IsInRole(Roles.Admin))
+{
+    <h1 class="mb-3 mt-4">Ваши вакансии</h1>
+} else if (User.IsInRole(Roles.University))
 {
     <h1 class="mb-3 mt-4">Ваши вакансии</h1>
 }
@@ -19,6 +22,7 @@ else
 {
     <h1 class="mb-3 mt-4">Вакансии</h1>
 }
+
 <div class="row w-100">
 
     @if (!Model.Any())

@@ -11,8 +11,8 @@
 {
     <h4 class="mb-4 ms-4">Профиль студента</h4>
     <div class="container">
-        <div class="row col-9 ms-3">
-            <div class="col-3">
+        <div class="row col-10 ms-3">
+            <div class="col-4">
                 <img src="~/img/nophoto.jpg" alt="Avatar" class="avatar mb-3">
                 <p id="name">@Model.User.LastName @Model.User.FirstName @Model.User.Patronymic</p>
             </div>
@@ -28,7 +28,7 @@
                     <p id="contancts">Телефон: @Model.User.PhoneNumber </p>
                 }
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <h4>Информация о стажировке</h4>
                 @if (Model.User.Company != null)
                 {
@@ -58,14 +58,18 @@
             {
                 <p class="ms-2 col-9">Отзыв пока не оставили...</p>
             }
-            @if (Model.User.PracticeJournalId != null)
+            @if (User.IsInRole(Roles.University) || User.IsInRole(Roles.Admin))
             {
-                <a id="button" class="btn ms-2 mt-4 mb-4" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@Model.User.Id" role="button">Дневник практики</a>
+                @if (Model.User.PracticeJournalId != null)
+                {
+                    <a id="button" class="btn ms-2 mt-4 mb-4" asp-action="Details" asp-controller="PracticeJournals" asp-route-studentId="@Model.User.Id" role="button">Дневник практики</a>
+                }
+                else
+                {
+                    <a id="button2" class="btn ms-2 mt-4 mb-4" role="button">Дневник практики</a>
+                }
             }
-            else
-            {
-                <a id="button2" class="btn ms-2 mt-4 mb-4" role="button">Дневник практики</a>
-            }
+
         </div>
     </div>
 }

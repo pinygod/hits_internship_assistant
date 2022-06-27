@@ -42,7 +42,7 @@ namespace HitsInternshipAssistant.Controllers
                 return BadRequest();
             }
 
-            if (user.Id != studentId.ToString() &&
+            if (user?.Id != studentId.ToString() &&
                 !User.IsInRole(Roles.Admin) &&
                 !User.IsInRole(Roles.University))
             {
