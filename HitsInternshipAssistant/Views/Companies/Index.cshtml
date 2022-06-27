@@ -21,11 +21,11 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont  ">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="99b8e8f0-a2ea-4e4d-2b41-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
             </div>
             <div class="companyPoster mb-3" style="background-color:#E41D30">
                 <div class="posterShortName">
-                    <span class="posterShortNameFont">@Model.First().ShortName</span>
+                    <span class="posterShortNameFont"> ЦФТ</span>
                 </div>
                 <div class="posterMoto ">
                     <span class="posterMotoFont">Ведущий российский финтех-провайдер</span>
@@ -33,7 +33,7 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="be1006e1-0fd1-45ab-2b3f-08da55252d9a" > <span class="posterButtonFont">Вакансии</span> </a>
                 @if (!String.IsNullOrEmpty(Model.First().LogoLink))
                 {
                     <div class="posterLogo">
@@ -51,7 +51,7 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont text-black">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="a5779621-fb32-42a4-2b40-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
                 @if (true)// check for logo link
                 {
                     <div class="posterLogo">
@@ -59,7 +59,7 @@
                     </div>
                 }
             </div>
-            <div class="companyPoster mb-3" style="background-color:#BAB8BD">
+            @*<div class="companyPoster mb-3" style="background-color:#BAB8BD">
                 <div class="posterShortName">
                     <span class="posterShortNameFont text-black">ТГУ</span>
                 </div>
@@ -69,15 +69,15 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont text-black">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="99b8e8f0-a2ea-4e4d-2b41-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
                 @if (true)// check for logo link
                 {
                     <div class="posterLogo">
                         <img src="/img/Companies/red_mad_robot.png">
                     </div>
                 }
-            </div>
-            <div class="companyPoster mb-3" style="background-color:#005aab">
+            </div>*@
+           @* <div class="companyPoster mb-3" style="background-color:#005aab">
                 <div class="posterShortName">
                     <span class="posterShortNameFont  ">СПОРТМАСТЕР</span>
                 </div>
@@ -87,14 +87,14 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont  ">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="99b8e8f0-a2ea-4e4d-2b41-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
                 @if (true)// check for logo link
                 {
                     <div class="posterLogo">
                         <img src="/img/Companies/спортмастер_лого.png">
                     </div>
                 }
-            </div>
+            </div>*@
             <div class="companyPoster mb-3" style="background-color:#000000">
                 <div class="posterShortName">
                     <span class="posterShortNameFont  ">НТР</span>
@@ -105,7 +105,7 @@
                 <div class="posterDetails">
                     <span class="posterDetailsFont  ">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="0babc22e-03e7-4969-2b42-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
                 @if (true)// check for logo link
                 {
                     <div class="posterLogo">
@@ -113,7 +113,7 @@
                     </div>
                 }
             </div>
-            <div class="companyPoster mb-3" style="background-color:#BAB8BD">
+            @*<div class="companyPoster mb-3" style="background-color:#BAB8BD">
                 <div class="posterShortName">
                     <span class="posterShortNameFont text-black">Микран</span>
                 </div>
@@ -124,14 +124,14 @@
                 <div class="posterDetails" style="top:160px">
                     <span class="posterDetailsFont text-black ">Подробнее о компании...</span>
                 </div>
-                <a class="btn btn-light btn-lg posterButton"> <span class="posterButtonFont">Вакансии</span> </a>
+                <a class="btn btn-light btn-lg posterButton" asp-action="Index" asp-controller="Vacancies" asp-route-companyId="99b8e8f0-a2ea-4e4d-2b41-08da55252d9a"> <span class="posterButtonFont">Вакансии</span> </a>
                 @if (true)// check for logo link
                 {
                     <div class="posterLogo">
                         <img src="/img/Companies/Микран.png">
                     </div>
                 }
-            </div>
+            </div>*@
         </div>
     </div>
 
